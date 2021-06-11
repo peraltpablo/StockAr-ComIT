@@ -1,0 +1,88 @@
+{
+  "_from": "framework7",
+  "_id": "framework7@6.0.6",
+  "_inBundle": false,
+  "_integrity": "sha512-Muwv0DXo8CkN14Bx/wopHpnd6x7D9H5kioyxEwLqqqJdP4wRjRcqoemceZoemJ/ZNen2DtAlh+EQfW5JAYGLUw==",
+  "_location": "/framework7",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "framework7",
+    "name": "framework7",
+    "escapedName": "framework7",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/framework7/-/framework7-6.0.6.tgz",
+  "_shasum": "a6ff8db19215b60ddeab8b65cf9e972a49b3cecf",
+  "_spec": "framework7",
+  "_where": "c:\\sitios-app\\FRAMEWORK7 - Version 6.0.6\\instala",
+  "author": {
+    "name": "Vladimir Kharlampidi"
+  },
+  "bugs": {
+    "url": "https://github.com/framework7io/framework7/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "dom7": "^3.0.0",
+    "htm": "^3.0.4",
+    "path-to-regexp": "^6.2.0",
+    "skeleton-elements": "^3.3.0",
+    "ssr-window": "^3.0.0",
+    "swiper": "^6.4.5"
+  },
+  "deprecated": false,
+  "description": "Full featured mobile HTML framework for building iOS & Android apps",
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/vladimirkharlampidi"
+  },
+  "homepage": "https://framework7.io/",
+  "jsnext:main": "esm/framework7.js",
+  "keywords": [
+    "mobile",
+    "framework",
+    "framework7",
+    "cordova",
+    "ios",
+    "iphone",
+    "ipad",
+    "apple",
+    "phonegap",
+    "native",
+    "touch",
+    "appstore",
+    "app",
+    "f7",
+    "material",
+    "android",
+    "google",
+    "googleplay"
+  ],
+  "license": "MIT",
+  "main": "cjs/framework7.js",
+  "module": "esm/framework7.js",
+  "name": "framework7",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/framework7io/framework7.git"
+  },
+  "scripts": {
+    "postinstall": "node postinstall.js"
+  },
+  "sideEffects": [
+    "*.less",
+    "*.css",
+    "cjs/utils/dom7.js",
+    "esm/utils/dom7.js"
+  ],
+  "typings": "framework7.d.ts",
+  "version": "6.0.6"
+}
