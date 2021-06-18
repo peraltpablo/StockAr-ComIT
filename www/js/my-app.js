@@ -25,6 +25,15 @@ var app = new Framework7({
 //CREO LA VISTA DE LA APP
 var mainView = app.views.create('.view-main');
 
+var panel = app.panel.create({
+  el: '.panel-left',
+  on: {
+    opened: function () {
+      console.log('Panel opened')
+    }
+  }
+});
+
 //EVENTO CORDOVA
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");

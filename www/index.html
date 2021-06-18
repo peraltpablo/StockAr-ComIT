@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <html class="theme-dark">
 <head>
-    <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
     <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
 
-    <!-- Required meta tags-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,6 +24,14 @@
 
 <body class="color-theme-teal">
     <div id="app">
+        <!--PANEL?? -->
+        <div class="panel panel-left panel-reveal panel-resizable panel-init">
+            <div class="block">
+            <p>Left Panel content here</p>
+            <p><a class="panel-close" href="#">Close me</a></p>
+            <p><a class="panel-open" href="#" data-panel=".panel-right-1">Open Right Panel</a></p>
+            </div>
+        </div>
         <!-- Statusbar overlay -->
         <div class="statusbar"></div>
     
@@ -44,6 +42,9 @@
             <div class="navbar text-align-center">
                 <div class="navbar-bg"></div>
                 <div class="navbar-inner display-flex justify-content-center align-content-center">
+                    <div class="block block-strong">
+                    <div><a class="panel-open" href="#" data-panel=".panel-left"><img src="img/bar.png" class="padding-top"></a></div>
+                    </div>
                     <div class="title">App PeraltaPablo</div>
                 </div>
             </div>
