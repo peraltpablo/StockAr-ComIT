@@ -34,6 +34,12 @@
 
 <body class="color-theme-teal">
     <div id="app">
+    	<div class="panel panel-left panel-reveal panel-resizable panel-init">
+      		<div class="block">
+        	<p>Left Panel content here</p>
+        	<p><a class="panel-close" href="#">Close me</a></p>
+      		</div>
+    	</div>
         <!-- Statusbar overlay -->
         <div class="statusbar"></div>
     
@@ -43,8 +49,11 @@
             <!-- Top Navbar -->
             <div class="navbar text-align-center">
                 <div class="navbar-bg"></div>
-                <div class="navbar-inner display-flex justify-content-center align-content-center">
-                    <div class="title">App PeraltaPablo</div>
+                <div class="navbar-inner">
+                	<div class="block block-strong left">
+            		<p><a class="panel-open" href="#" data-panel=".panel-left"><img src="img/menu.png"></a></p>
+            		</div>
+                    <div class="title center">App PeraltaPablo</div>
                 </div>
             </div>
         
