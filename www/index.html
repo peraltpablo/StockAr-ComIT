@@ -34,10 +34,14 @@
 
 <body class="color-theme-teal">
     <div id="app">
-    	<div class="panel panel-left panel-reveal panel-resizable panel-init">
-      		<div class="block">
-        	<p>Left Panel content here</p>
-        	<p><a class="panel-close" href="#">Close me</a></p>
+    	<div class="panel panel-left panel-cover panel-init" data-container-el="#panel-page">
+      		<div class="page">
+        		<div class="page-content">
+          			<div class="block block-strong">
+            			<p>Left Panel content here</p>
+            			<p><a class="panel-close" href="#">Close me</a></p>
+          			</div>
+        		</div>
       		</div>
     	</div>
         <!-- Statusbar overlay -->
@@ -46,59 +50,38 @@
         <!-- Your main view, should have "view-main" class -->
         <div class="view view-main">
        
-            <!-- Top Navbar -->
-            <div class="navbar text-align-center">
+            <!-- BARRA SUPERIOR -->
+            <div class="navbar center bg-color-primary">
                 <div class="navbar-bg"></div>
-                <div class="navbar-inner">
+                <div class="navbar-inner justify-content-center bg-color-primary">
                 	<div class="block block-strong left">
             		<p><a class="panel-open" href="#" data-panel=".panel-left"><img src="img/menu.png"></a></p>
             		</div>
-                    <div class="title center">App PeraltaPablo</div>
+                    <div class="title block text">App PeraltaPablo</div>
                 </div>
             </div>
-        
+
+            <!-- BARRA INFERIOR -->
+            <div class="toolbar toolbar-bottom bg-color-primary">
+            	<div class="toolbar-inner">
+            		<a href="" class="link back"><img src="img/back.png"></a>
+            		<a href="/inicio/" class="link"><img src="img/home.png"></a>
+            		<a href="/ingreso/" class="link"><img src="img/user.png"></a>
+            	</div>
+            </div>
+        	
         <!-- Initial Page, "data-name" contains page name -->
             <div data-name="index" class="page">
                 <!-- Scrollable page content -->
                 <div class="page-content">
-                    <div class="block">
-                        <div class="block-title">Ingresá tu usuario</div>
-                            <div class="list no-hairlines-md">
-                                <ul>
-                                    <li class="item-content item-input">
-                                        <div class="item-inner">
-                                            <div class="item-title item-label">E-mail</div>
-                                            <div class="item-input-wrap">
-                                                <input type="email" placeholder="Tu Email" id="email" />
-                                                <span class="input-clear-button"></span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="item-content item-input">
-                                        <div class="item-inner">
-                                            <div class="item-title item-label">Contraseña</div>
-                                            <div class="item-input-wrap">
-                                                <input type="password" placeholder="Tu Contraseña" id="contrasena" />
-                                                <span class="input-clear-button"></span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                    </div>
-                    <div class="block block-strong">
-                        <div class="row">
-                            <button class="col button button-fill" id="ingresar">Ingresar</button>
-                        </div>
-                    </div>
+                	<h2>HOLAAA</h2>
+                	<p>Algún eslogan que ocupe una o dos lineas.</p>
+                	<img src="img/inicio.jpg" class="img_inicio">
                 </div>
             </div>
         </div>
     </div>
 
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="lib/framework7/framework7-bundle.min.js"></script>
-    <script type="text/javascript" src="js/my-app.js"></script>
     <!--INICIALIZACIÒN DE FIREBASE-->
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
     <!--LIBRERÍA AUTENTIFICACIÓN-->
@@ -120,6 +103,9 @@
     firebase.initializeApp(firebaseConfig);
     </script>
 
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/framework7/framework7-bundle.min.js"></script>
+    <script type="text/javascript" src="js/my-app.js"></script>
 </body>
 
 </html>

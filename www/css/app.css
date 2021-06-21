@@ -85,3 +85,16 @@
 }
 
 
+.img_inicio {
+  width: 100%;
+}
+
+.visible {
+  display: block;
+  visibility: visible;
+}
+
+.oculto {
+  display: none;
+  visibility: hidden;
+}
