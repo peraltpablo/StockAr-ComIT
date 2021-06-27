@@ -98,3 +98,11 @@
   display: none;
   visibility: hidden;
 }
+
+.grande {
+  font-size: 3em;
+}
+
+.mediano {
+  font-size: 1.5em;
+}

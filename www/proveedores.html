@@ -1,0 +1,56 @@
+<div class="page" data-name="proveedores">
+  <div class="fab-backdrop"></div>
+  <div class="fab fab-right-bottom">
+    <a href="#">
+      <i class="icon f7-icons if-not-md">plus</i>
+      <i class="icon f7-icons if-not-md">xmark</i>
+      <i class="icon material-icons md-only">add</i>
+      <i class="icon material-icons md-only">close</i>
+    </a>
+    <div class="fab-buttons fab-buttons-top">
+      <a class="fab-label-button" href="/altaProveedores/"><span>Alta</span><span class="fab-label">Nueva Alta</span></a>
+      <a class="fab-label-button" href="/altaProveedores/"><span>Editar</span><span class="fab-label">Editar Proveedor</span></a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="block">
+      <div class="card data-table">
+        <table>
+          <thead>
+            <tr>
+              <th class="numeric-cell">CUIT</th>
+              <th class="label-cell">Nombre</th>
+              <th class="label-cell">Mail</th>
+              <th class="label-cell">Teléfono</th>
+            </tr>
+          </thead>
+          <tbody id="datosProveedores">
+            ...
+          </tbody>
+        </table>
+        <div class="data-table-footer">
+          <div class="data-table-rows-select">
+            Per page:
+            <div class="input input-dropdown">
+              <select>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="all">All</option>
+              </select>
+            </div>
+          </div>
+          <div class="data-table-pagination">
+            <span class="data-table-pagination-label">1-5 of 10</span>
+            <a href="#" class="link disabled">
+              <i class="icon icon-prev color-gray"></i>
+            </a>
+            <a href="#" class="link">
+              <i class="icon icon-next color-gray"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

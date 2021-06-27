@@ -15,9 +15,12 @@ var app = new Framework7({
     // RUTAS
     routes: [
         {path: '/index/', url: 'index.html',},
-        {path: '/inicio/',url: 'inicio.html',},
         {path: '/ingreso/',url: 'ingreso.html',},
         {path: '/registro/',url: 'registro.html',},
+        {path: '/productos/',url: 'productos.html',},
+        {path: '/altaProductos/',url: 'altaProductos.html',},
+        {path: '/proveedores/',url: 'proveedores.html',},
+        {path: '/altaProveedores/',url: 'altaProveedores.html',},
     ]
   });
 
@@ -46,6 +49,38 @@ $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
     $$("#registrar").on('click', fnRegistro);
 });
 
+// INICIALIZACIÓN DE PÁGINA INICIO
+$$(document).on('page:init', '.page[data-name="altaProductos"]', function (e) {
+    $$("#agregarProducto").on('click', fnAgregarProd);
+    $$("#codigoProducto").val("");
+    $$("#nombreProducto").val("");
+    $$("#marcaProducto").val("");
+    $$("#detalleProducto").val("");
+    $$("#alertaProducto").val("");
+    $$("#mininoAlerta").val("");
+});
+
+// INICIALIZACIÓN DE PÁGINA PRODUCTOS
+$$(document).on('page:init', '.page[data-name="productos"]', function (e) {
+    mostrarProd();
+});
+
+// INICIALIZACIÓN DE PÁGINA PROVEEDORES
+$$(document).on('page:init', '.page[data-name="proveedores"]', function (e) {
+    mostrarProv();
+});
+
+// INICIALIZACIÓN DE PÁGINA ALTA PROVEEDORES
+$$(document).on('page:init', '.page[data-name="altaProveedores"]', function (e) {
+    $$("#agregarProducto").on('click', fnAgregarProv);
+    /*$$("#codigoProducto").val("");
+    $$("#nombreProducto").val("");
+    $$("#marcaProducto").val("");
+    $$("#detalleProducto").val("");
+    $$("#alertaProducto").val("");
+    $$("#mininoAlerta").val("");*/
+});
+
 // AUTENTICACIÓN USUARIO EXISTENTE
 function fnIngreso() {
     var email = $$("#email").val();
@@ -56,7 +91,7 @@ function fnIngreso() {
     firebase.auth().signInWithEmailAndPassword(email, contrasena)
     .then(function(){
         console.log("Ingreso!");
-        mainView.router.navigate('/inicio/');
+        mainView.router.navigate('/altaProductos/');
 
     })
     .catch(function(error){
@@ -134,39 +169,98 @@ function fnCerrarSesion() {
 }
 
 //BASE DE DATOS
+
 var db = firebase.firestore();
-    colProductos = db.collection("productos");
+var colProductos = db.collection("productos");
+var colProveedores = db.collection("proveedores");
 
-    /*var data = {nombre: "Pepe", rol: "developer"};
-    MiID = "pepe@hotmail.com"
-    colPersonas.doc(MiID).set(data)
-    .then(function(miVarDeDocRef) {
-        console.log("OK! Con el ID: " + miVarDeDocRef.id)
-    })
-    .catch(function(datosDelError) {
-        console.error("Error: " + datosDelError);
-    });*/
+function fnAgregarProd() {
+    var data = {
+        codigo: $$("#codigoProducto").val(),
+        nombre: $$("#nombreProducto").val(),
+        marca: $$("#marcaProducto").val(),
+        detalle: $$("#detalleProducto").val(),
+        alerta: $$("#alertaProducto").val(),
+        minimoStock: $$("#mininoAlerta").val(),
+    };
 
-    /*var data = {nombreProd: "", marca: "", detalle: "", alerta: "", alertaMin:""};
-    
-    MiID = "codigo del producto"
+    MiID = $$("#codigoProducto").val();
+
     colProductos.doc(MiID).set(data)
-    .then(function(miVarDeDocRef) {
-        console.log("OK! Con el ID: " + miVarDeDocRef.id)
+    .then(function(idProd) {
+        console.log("OK! En base de Datos");
+        $$("#codigoProducto").val("");
+        $$("#nombreProducto").val("");
+        $$("#marcaProducto").val("");
+        $$("#detalleProducto").val("");
+        $$("#alertaProducto").val("");
+        $$("#mininoAlerta").val("");
+        alert("Producto Añadido");
     })
     .catch(function(datosDelError) {
         console.error("Error: " + datosDelError);
     });
+};
 
-    /*colPersonas.get()
-    .then(function(q5) {
-        q5.forEach(function(doc) {
+function mostrarProd() {
+    colProductos.get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            codigo = doc.data().codigo;
             nombre = doc.data().nombre;
-            rol = doc.data().rol;
+            marca = doc.data().marca;
+            detalle = doc.data().detalle;
+            minimoStock = doc.data().minimoStock;
 
-            $$("#datosPersonas").append('<p>'+nombre+'</p><p>'+rol+'</p>');
+            $$("#datosProductos").append("<tr><td class='label-cell'>"+codigo+"</td><td class='label-cell'>"+nombre+"</td><td class='label-cell'>"+marca+"</td></tr><br>");
         })
     })
     .catch(function(err) {
         console.log("Error" + err);
-    })*/
+    })
+}
+
+function fnAgregarProv() {
+    var data = {
+        cuit: $$("#cuitProveedor").val(),
+        nombre: $$("#nombreProveedor").val(),
+        email: $$("#emailProveedor").val(),
+        telefono: $$("#telefonoProveedor").val(),
+        localidad: $$("#localidadProveedor").val(),
+        provincia: $$("#provinciaProveedor").val(),
+    };
+
+    MiID = $$("#cuitProveedor").val();
+
+    colProveedores.doc(MiID).set(data)
+    .then(function(idProd) {
+        console.log("OK! En base de Datos");
+        $$("#cuitProveedor").val("");
+        $$("#nombreProveedor").val("");
+        $$("#emailProveedor").val("");
+        $$("#telefonoProveedor").val("");
+        $$("#localidadProveedor").val("");
+        $$("#provinciaProveedor").val("");
+        alert("Proveedor Añadido");
+    })
+    .catch(function(datosDelError) {
+        console.error("Error: " + datosDelError);
+    });
+};
+
+function mostrarProv() {
+    colProveedores.get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            cuit = doc.data().cuit;
+            nombre = doc.data().nombre;
+            email = doc.data().email;
+            localidad = doc.data().localidad;
+
+            $$("#datosProveedores").append("<tr><td class='label-cell'>"+cuit+"</td><td class='label-cell'>"+nombre+"</td><td class='label-cell'>"+email+"</td><td class='label-cell'>"+localidad+"</td></tr><br>");
+        })
+    })
+    .catch(function(err) {
+        console.log("Error" + err);
+    })
+}
