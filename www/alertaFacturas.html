@@ -1,0 +1,43 @@
+<div class="page" data-name="alertaFacturas">
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner">
+        <div class="title">Form To Data</div>
+      </div>
+    </div>
+    <div class="page-content">
+      <form class="list" id="my-form">
+        <ul>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Desea recibir alertas de vencimientos?</div>
+                <div class="item-input-wrap">
+                  <select name="gender" id="alerta">
+                    <option value="Si" selected="selected">Si</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Plazo para el Alerta</div>
+                <div class="item-input-wrap">
+                  <input type="number" name="name" placeholder="Días anteriores al vencimiento" id="diasAlerta"/>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </form>
+      <div class="block block-strong row">
+        <div class="col"><a class="button button-fill convert-form-to-data" href="#" id="agregarAlerta">Guardar Cambios</a></div>
+      </div>
+    </div>
+  </div>
+
+</div>

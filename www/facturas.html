@@ -1,0 +1,228 @@
+<div class="page" data-name="facturas">
+  <div class="fab-backdrop"></div>
+  <div class="fab fab-right-bottom">
+    <a href="#">
+      <i class="icon f7-icons if-not-md">plus</i>
+      <i class="icon f7-icons if-not-md">xmark</i>
+      <i class="icon material-icons md-only">add</i>
+      <i class="icon material-icons md-only">close</i>
+    </a>
+    <div class="fab-buttons fab-buttons-top">
+      <a class="fab-label-button popup-open" href="#" data-popup=".popup-altaFac"><span>Alta</span><span class="fab-label">Nueva Alta</span></a>
+      <a class="fab-label-button" href="/alertaFacturas/"><span>Alertas</span><span class="fab-label">Alertas</span></a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="block">
+      <div class="card data-table">
+        <table>
+          <thead>
+            <tr>
+              <th class="numeric-cell">CAE</th>
+              <th class="numeric-cell">NÚMERO</th>
+              <th class="label-cell">ESTADO</th>
+              <th class="label-cell">MONTO</th>
+              <th class="label-cell">VENCIMIENTO</th>
+              <th class="label-cell">ELIMINAR</th>
+              <th class="label-cell">EDITAR</th>
+            </tr>
+          </thead>
+          <tbody id="datosFacturas">
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="popup popup-altaFac">
+    <div class="block">
+      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <div class="block-title">FACTURA:</div>
+        <form class="list form-store-data margin-top" id="my-form">
+          <ul>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Nº de Factura</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="factura" placeholder="Número después de guiones" id="numeroFactura" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Fecha de Factura</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Fecha de Emisión" readonly="readonly" id="fechaFactura" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Vencimiento de Factura</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Fecha de Vencimiento" readonly="readonly" id="vencimientoFactura" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Nombre del Proveedor</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="nombre" placeholder="Nombre del Proveedor" id="proveedorFactura" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Monto</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="email" placeholder="Monto Total (decimales con .)" id="montoFactura" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Estado de Pago</div>
+                  <div class="item-input-wrap">
+                    <select name="gender" id="estadoFactura">
+                      <option value="pendiente" selected="selected">Pendiente</option>
+                      <option value="pagada">Pagada</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">CAE</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="cae" placeholder="Número de CAE" id="caeFactura" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Vencimiento de CAE</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Fecha de Vencimiento CAE" readonly="readonly" id="vencimientocaeFactura" />
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </form>
+        <p class="row block">
+            <button class="col-50 button button-small button-round button-fill" id="botonFactura">Agregar</button>
+        </p>
+    </div>
+    <div class="popup popup-editarFac">
+    <div class="block">
+      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <div class="block-title">FACTURA:</div>
+        <form class="list form-store-data margin-top" id="my-form-Ed">
+          <ul>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Nº de Factura</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="factura" placeholder="Número después de guiones" id="numeroFacturaEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Fecha de Factura</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Fecha de Emisión" readonly="readonly" id="fechaFacturaEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Vencimiento de Factura</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Fecha de Vencimiento" readonly="readonly" id="vencimientoFacturaEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Nombre del Proveedor</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="nombre" placeholder="Nombre del Proveedor" id="proveedorFacturaEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Monto</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="email" placeholder="Monto Total (decimales con .)" id="montoFacturaEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Estado de Pago</div>
+                  <div class="item-input-wrap">
+                    <select name="gender" id="estadoFacturaEd">
+                      <option value="pendiente" selected="selected">Pendiente</option>
+                      <option value="pagada">Pagada</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">CAE</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="cae" placeholder="Número de CAE" id="caeFacturaEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Vencimiento de CAE</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Fecha de Vencimiento CAE" readonly="readonly" id="vencimientocaeFacturaEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </form>
+        <p class="row block">
+            <button class="col-50 button button-small button-round button-fill" id="botonEditarFac">Editar</button>
+        </p>
+    </div>
+  </div>
+  </div>
+  </div>
+</div>

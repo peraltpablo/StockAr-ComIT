@@ -1,4 +1,16 @@
 <div class="page" data-name="productos">
+  <div class="subnavbar">
+    <form class="searchbar">
+      <div class="searchbar-inner">
+        <div class="searchbar-input-wrap">
+          <input type="search" placeholder="Search" />
+          <i class="searchbar-icon"></i>
+          <span class="input-clear-button"></span>
+        </div>
+        <span class="searchbar-disable-button if-not-aurora">Cancel</span>
+      </div>
+    </form>
+  </div>
   <div class="fab-backdrop"></div>
   <div class="fab fab-right-bottom">
     <a href="#">
@@ -8,47 +20,197 @@
       <i class="icon material-icons md-only">close</i>
     </a>
     <div class="fab-buttons fab-buttons-top">
-      <a class="fab-label-button" href="/altaProductos/"><span>Alta</span><span class="fab-label">Nueva Alta</span></a>
-      <a class="fab-label-button" href="/altaProductos/"><span>Editar</span><span class="fab-label">Editar Producto</span></a>
+      <a class="fab-label-button popup-open" href="#" data-popup=".popup-altaProd"><span>Alta</span><span class="fab-label">Nueva Alta</span></a>
     </div>
   </div>
   <div class="page-content">
+    <div class="data-table">
+      <table>
+        <thead class="block-strong">
+          <tr>
+            <th class="numeric-cell">CÓDIGO</th>
+            <th class="label-cell">STOCK</th>
+            <th class="label-cell">NOMBRE</th>
+            <th class="label-cell">MARCA</th>
+            <th class="label-cell">DETALLE</th>
+            <th class="label-cell">ELIMINAR?</th>
+            <th class="label-cell">EDITAR?</th>
+          </tr>
+        </thead>
+        <tbody id="datosProductos" class="contenedor">
+        </tbody>
+      </table>
+    </div>
+    <div class="popup popup-altaProd">
     <div class="block">
-      <div class="card data-table">
-        <table>
-          <thead>
-            <tr>
-              <th class="numeric-cell">Código</th>
-              <th class="label-cell">Nombre</th>
-              <th class="label-cell">Marca</th>
-            </tr>
-          </thead>
-          <tbody id="datosProductos">
-            ...
-          </tbody>
-        </table>
-        <div class="data-table-footer">
-          <div class="data-table-rows-select">
-            Per page:
-            <div class="input input-dropdown">
-              <select>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="all">All</option>
-              </select>
-            </div>
-          </div>
-          <div class="data-table-pagination">
-            <span class="data-table-pagination-label">1-5 of 10</span>
-            <a href="#" class="link disabled">
-              <i class="icon icon-prev color-gray"></i>
-            </a>
-            <a href="#" class="link">
-              <i class="icon icon-next color-gray"></i>
-            </a>
-          </div>
-        </div>
+      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <div class="block-title">INGRESÁ EL NUEVO PRODUCTO:</div>
+        <form class="list form-store-data margin-top">
+          <ul>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Código del Producto</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="nombre" placeholder="Código del Producto" id="codigoProducto" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Nombre del Producto</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="nombre" placeholder="Nombre del Producto" id="nombreProducto" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Marca</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="marca" placeholder="Marca" id="marcaProducto" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Detalle</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="detalle" placeholder="Peso, volumen, tamaño" id="detalleProducto" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Stock Inicial</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="stock" placeholder="Stock del Producto" id="stockProducto" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Recibe Alerta de Stock Mínimo?</div>
+                  <div class="item-input-wrap">
+                    <select name="gender" id="alertaProducto">
+                      <option value="si" selected="selected">Si</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Stock Mínimo de Alerta</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="detalle" placeholder="Cantidad Mínima de Stock" id="mininoAlerta" />
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </form>
+        <p class="row block">
+            <button class="col-50 button button-small button-round button-fill" id="botonProducto">Agregar</button>
+        </p>
+      </div>
+    </div>
+    <div class="popup popup-editarProd">
+    <div class="block">
+      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <div class="block-title">PRODUCTO A EDITAR:</div>
+        <form class="list form-store-data margin-top">
+          <ul>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Código del Producto</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="nombre" placeholder="Código del Producto" id="codigoProductoEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Nombre del Producto</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="nombre" placeholder="Nombre del Producto" id="nombreProductoEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Marca</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="marca" placeholder="Marca" id="marcaProductoEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Detalle</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="detalle" placeholder="Peso, volumen, tamaño" id="detalleProductoEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Stock Inicial</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="stock" placeholder="Stock del Producto" id="stockProductoEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Recibe Alerta de Stock Mínimo?</div>
+                  <div class="item-input-wrap">
+                    <select name="gender" id="alertaProductoEd">
+                      <option value="si" selected="selected">Si</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Stock Mínimo de Alerta</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="detalle" placeholder="Cantidad Mínima de Stock" id="mininoAlertaEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </form>
+        <p class="row block">
+            <button class="col-50 button button-small button-round button-fill" id="botonEditarProd">Editar</button>
+        </p>
       </div>
     </div>
   </div>

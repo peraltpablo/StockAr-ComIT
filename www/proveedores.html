@@ -8,8 +8,7 @@
       <i class="icon material-icons md-only">close</i>
     </a>
     <div class="fab-buttons fab-buttons-top">
-      <a class="fab-label-button" href="/altaProveedores/"><span>Alta</span><span class="fab-label">Nueva Alta</span></a>
-      <a class="fab-label-button" href="/altaProveedores/"><span>Editar</span><span class="fab-label">Editar Proveedor</span></a>
+      <a class="fab-label-button popup-open" href="#" data-popup=".popup-altaProv"><span>Alta</span><span class="fab-label">Nueva Alta</span></a>
     </div>
   </div>
   <div class="page-content">
@@ -19,37 +18,163 @@
           <thead>
             <tr>
               <th class="numeric-cell">CUIT</th>
-              <th class="label-cell">Nombre</th>
-              <th class="label-cell">Mail</th>
-              <th class="label-cell">Teléfono</th>
+              <th class="label-cell">NOMBRE</th>
+              <th class="label-cell">EMAIL</th>
+              <th class="label-cell">TELÉFONO</th>
+              <th class="label-cell">LOCALIDAD</th>
+              <th class="label-cell">ELIMINAR?</th>
+              <th class="label-cell">EDITAR?</th>
             </tr>
           </thead>
           <tbody id="datosProveedores">
-            ...
           </tbody>
         </table>
-        <div class="data-table-footer">
-          <div class="data-table-rows-select">
-            Per page:
-            <div class="input input-dropdown">
-              <select>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="all">All</option>
-              </select>
-            </div>
-          </div>
-          <div class="data-table-pagination">
-            <span class="data-table-pagination-label">1-5 of 10</span>
-            <a href="#" class="link disabled">
-              <i class="icon icon-prev color-gray"></i>
-            </a>
-            <a href="#" class="link">
-              <i class="icon icon-next color-gray"></i>
-            </a>
-          </div>
-        </div>
+      </div>
+    </div>
+    <div class="popup popup-altaProv">
+    <div class="block">
+      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <div class="block-title">INGRESÁ EL NUEVO PROVEEDOR:</div>
+        <form class="list form-store-data margin-top" id="my-form">
+          <ul>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">CUIT del Proveedor</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="cuit" placeholder="CUIT del Proveedor (sin '-')" id="cuitProveedor" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Nombre del Proveedor</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="nombre" placeholder="Nombre del Proveedor" id="nombreProveedor" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Email</div>
+                  <div class="item-input-wrap">
+                    <input type="email" name="email" placeholder="Email del Proveedor" id="emailProveedor" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Teléfono</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="telefono" placeholder="Teléfono sin 0 ni 15" id="telefonoProveedor" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Localidad</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="localidad" placeholder="Localidad" id="localidadProveedor" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Provincia</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="provincia" placeholder="Provincia" id="provinciaProveedor" />
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </form>
+        <p class="row block">
+            <button class="col-50 button button-small button-round button-fill" id="botonProveedor">Agregar</button>
+        </p>
+    </div>
+    </div>
+    <div class="popup popup-editarProv">
+    <div class="block">
+      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <div class="block-title">INGRESÁ EL NUEVO PRODUCTO:</div>
+        <form class="list form-store-data margin-top">
+          <ul>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">CUIT del Proveedor</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="cuit" placeholder="CUIT del Proveedor (sin '-')" id="cuitProveedorEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Nombre del Proveedor</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="nombre" placeholder="Nombre del Proveedor" id="nombreProveedorEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Email</div>
+                  <div class="item-input-wrap">
+                    <input type="email" name="email" placeholder="Email del Proveedor" id="emailProveedorEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Teléfono</div>
+                  <div class="item-input-wrap">
+                    <input type="number" name="telefono" placeholder="Teléfono sin 0 ni 15" id="telefonoProveedorEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Localidad</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="localidad" placeholder="Localidad" id="localidadProveedorEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Provincia</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="provincia" placeholder="Provincia" id="provinciaProveedorEd" />
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </form>
+        <p class="row block">
+            <button class="col-50 button button-small button-round button-fill" id="botonEditarProv">Editar</button>
+        </p>
       </div>
     </div>
   </div>

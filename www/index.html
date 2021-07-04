@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="css/icons.css">
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="css/app.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.js" integrity="sha512-+POM1aKUkb5l91zDBDtxn0dlY5wazuQFtCXin/47Z+eE7AnMuFBMrNjkZA1P6m+infsMMSthlsPNh1rjBtAPBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body class="color-theme-teal">
@@ -42,7 +43,7 @@
             			<div class="list media-list menu-list">
 					        <ul>
 					          <li>
-					            <a href="#" class="item-content item-link panel-close">
+					            <a href="/index/" class="item-content item-link panel-close">
 					              <div class="item-media">
 					                <i class="f7-icons">waveform_path_ecg</i>
 					              </div>
@@ -54,6 +55,19 @@
 					              </div>
 					            </a>
 					          </li>
+                              <li>
+                                <a href="/index/" class="item-content item-link panel-close">
+                                  <div class="item-media">
+                                    <i class="f7-icons">cart_fill</i>
+                                  </div>
+                                  <div class="item-inner">
+                                    <div class="item-title-wrap">
+                                      <div class="item-title">STOCK</div>
+                                    </div>
+                                    <div class="item-subtitle">Altas, bajas de Stock</div>
+                                  </div>
+                                </a>
+                              </li>
 					          <li>
 					            <a href="/productos/" class="item-content item-link panel-close">
 					              <div class="item-media">
@@ -63,12 +77,12 @@
 					                <div class="item-title-wrap">
 					                  <div class="item-title">PRODUCTOS</div>
 					                </div>
-					                <div class="item-subtitle">Detalle, altas</div>
+					                <div class="item-subtitle">Añadir o editar productos</div>
 					              </div>
 					            </a>
 					          </li>
 					          <li>
-					            <a href="#" class="item-content item-link panel-close">
+					            <a href="/facturas/" class="item-content item-link panel-close">
 					              <div class="item-media">
 					                <i class="f7-icons">doc_text</i>
 					              </div>
@@ -93,8 +107,19 @@
 					              </div>
 					            </a>
 					          </li>
-					          
-					          
+                              <li>
+                                <a href="/proveedores/" class="item-content item-link panel-close">
+                                  <div class="item-media">
+                                    <i class="f7-icons">chat_bubble_text</i>
+                                  </div>
+                                  <div class="item-inner">
+                                    <div class="item-title-wrap">
+                                      <div class="item-title">CONTACTO</div>
+                                    </div>
+                                    <div class="item-subtitle">StockAR</div>
+                                  </div>
+                                </a>
+                              </li>
 					        </ul>
 					      </div>
           			</div>
@@ -135,7 +160,9 @@
                 <div class="page-content">
                 	<h2>HOLAAA</h2>
                 	<p>Algún eslogan que ocupe una o dos lineas.</p>
-                	<img src="img/inicio.jpg" class="img_inicio">
+                	<img src="img/inicio.jpg" class="img_inicio visible" id="imagenIndex">
+                    <canvas id="myChart" width="50" height="50" class="block-strong oculto"></canvas>
+                    <div id="alertas" class="oculto"></div>
                 </div>
             </div>
         </div>
