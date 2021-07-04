@@ -15,7 +15,7 @@ var app = new Framework7({
     // CALENDARIO
     calendar: {
     url: 'facturas/',
-    dateFormat: 'yyyy/mm/dd',
+    dateFormat: 'yyyy-mm-dd',
     closeOnSelect: 'true',
     },
     //BUSCADOR
@@ -92,15 +92,12 @@ $$(document).on('page:init', '.page[data-name="editarProveedores"]', function (e
 // INICIALIZACIÓN DE PÁGINA FACTURAS
 $$(document).on('page:init', '.page[data-name="facturas"]', function (e) {
     mostrarFac();
-    var calendar1 = app.calendar.create({
-    inputEl: '#fechaFactura',
-    });
-    var calendar2 = app.calendar.create({
-    inputEl: '#vencimientoFactura',
-    });
-    var calendar3 = app.calendar.create({
-    inputEl: '#vencimientocaeFactura',
-    });
+    var calendar1 = app.calendar.create({inputEl: '#fechaFactura',});
+    var calendar2 = app.calendar.create({inputEl: '#vencimientoFactura',});
+    var calendar3 = app.calendar.create({inputEl: '#vencimientocaeFactura',});
+    var calendar4 = app.calendar.create({inputEl: '#fechaFacturaEd',});
+    var calendar5 = app.calendar.create({inputEl: '#vencimientoFacturaEd',});
+    var calendar6 = app.calendar.create({inputEl: '#vencimientocaeFacturaEd',});
     $$("#botonFactura").on('click', fnAgregarFac);
     $$("#botonEditarFac").on('click', editarFacOk);
 });
@@ -438,12 +435,12 @@ function fnBuscarProv() {
 function fnAgregarFac() {
     var data = {
         numero: $$("#numeroFactura").val(),
-        fecha: new Date($$("#fechaFactura").val()),
-        vencimiento: new Date($$("#vencimientoFactura").val()),
+        fecha: $$("#fechaFactura").val(),
+        vencimiento: $$("#vencimientoFactura").val(),
         proveedor: $$("#proveedorFactura").val(),
         monto: $$("#montoFactura").val(),
         estado: $$("#estadoFactura").val(),
-        vtocae: new Date($$("#vencimientocaeFactura").val()),
+        vtocae: $$("#vencimientocaeFactura").val(),
     };
 
     MiID = $$("#caeFactura").val();
@@ -474,12 +471,12 @@ function mostrarFac() {
         querySnapshot.forEach(function(doc) {
             cae = doc.id;
             numero = doc.data().numero;
-            fecha = "'" + doc.data().fecha + "'";
-            vencimiento = "'" + doc.data().vencimiento + "'";
+            fecha = doc.data().fecha;
+            vencimiento = doc.data().vencimiento;
             proveedor = "'" + doc.data().proveedor + "'";
             monto = doc.data().monto;
             estado = "'" + doc.data().estado + "'";
-            vtocae = "'" + doc.data().vtocae.toDate() + "'";
+            vtocae = doc.data().vtocae;
             tabla.innerHTML += '<tr><td>'+cae+'</td><td>'+numero+'</td><td>'+estado+'</td><td>'+monto+'</td><td>'+vencimiento+'</td><td><button class="col button button-fill color-red" onclick="eliminarFac('+cae+')">Eliminar</button></td><td><button class="col button button-fill color-green popup-open" href="#"" data-popup=".popup-editarFac" onclick="editarFac('+cae+','+numero+','+fecha+','+vencimiento+','+proveedor+','+monto+','+estado+','+vtocae+')">Editar</button></td></tr>';
         })
     })
@@ -500,24 +497,24 @@ function eliminarFac(cae) {
 function editarFac(cae,numero,fecha,vencimiento,proveedor,monto,estado,vtocae){
     $$("#caeFacturaEd").val(cae);
     $$("#numeroFacturaEd").val(numero);
-    $$("#fechaFacturaEd").val(fecha);
-    $$("#vencimientoFacturaEd").val(vencimiento);
+    $$("#fechaFacturaEd").val(fecha.toDate);
+    $$("#vencimientoFacturaEd").val(vencimiento.toDate);
     $$("#proveedorFacturaEd").val(proveedor);
     $$("#montoFacturaEd").val(monto);
     $$("#estadoFacturaEd").val(estado);
-    $$("#vencimientocaeFacturaEd").val(vtocae);
+    $$("#vencimientocaeFacturaEd").val(vtocae.toDate);
 }
 
 function editarFacOk() {
     cae = $$("#caeFacturaEd").val();
         return colFacturas.doc(cae).update({
             numero: $$("#numeroFacturaEd").val(),
-            fecha: new Date($$("#fechaFacturaEd").val()),
-            vencimiento: new Date($$("#vencimientoFacturaEd").val()),
+            fecha: $$("#fechaFacturaEd").val(),
+            vencimiento: $$("#vencimientoFacturaEd").val(),
             proveedor: $$("#proveedorFacturaEd").val(),
             monto: $$("#montoFacturaEd").val(),
             estado: $$("#estadoFacturaEd").val(),
-            vtocae: new Date($$("#vencimientocaeFacturaEd").val()),
+            vtocae: $$("#vencimientocaeFacturaEd").val(),
         })
 
         .then(() => {
@@ -551,7 +548,7 @@ function fnGrafico() {
     colFacturas.get()
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-            vencimiento = doc.data().vencimiento.toDate();
+            vencimiento = new Date(doc.data().vencimiento);
             numero = doc.data().numero;
             monto = doc.data().monto;
             
@@ -560,7 +557,7 @@ function fnGrafico() {
 
             // Calcular días
             var diferencia = Math.abs(vencimiento-hoy);
-            dias = parseInt(diferencia/(1000 * 3600 * 24)+1);
+            dias = parseInt(diferencia/(1000 * 3600 * 24));
 
             console.log(dias);
 
