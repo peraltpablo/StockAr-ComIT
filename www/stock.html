@@ -1,0 +1,127 @@
+<div class="page" data-name="stock">
+  <div class="page-content">
+    <div>Gestioná tus Stocks</div>
+    <div class="block block-strong">
+    <h3 class="text-align-center margin-top">VENTAS / BAJAS</h3>
+      <p class="row">
+        <button class="col button button-large button-fill color-blue popup-open" href="#" data-popup=".popup-bajaStock">-- Stock</button>
+      </p>
+    </div>
+    <div class="block block-strong">
+    <h3 class="text-align-center margin-top">COMPRAS / ALTAS</h3>
+      <p class="row">
+        <button class="col button button-large button-fill color-pink popup-open" href="#" data-popup=".popup-altaStock">++ Stock</button>
+      </p>
+    </div>
+    <div class="block block-strong">
+    <h3 class="text-align-center margin-top">QUIERO AGREGAR PRODUCTO</h3>
+      <p class="row">
+        <button class="col button button-large button-fill color-white text-color-black" id="irProductos">++ Producto</button>
+      </p>
+    </div>
+    <div class="popup popup-altaStock">
+      <p><a class="link popup-close" href="#">Cerrar</a></p>
+    <div class="block">
+      <div class="subnavbar">
+        <form class="searchbar">
+          <div class="searchbar-inner">
+            <div class="searchbar-input-wrap">
+              <input type="search" placeholder="Search" />
+              <i class="searchbar-icon"></i>
+              <span class="input-clear-button"></span>
+            </div>
+            <span class="searchbar-disable-button if-not-aurora">Cancel</span>
+          </div>
+        </form>
+      </div>
+      <div class="page-content">
+        <div class="subnavbar">
+          <form class="searchbar">
+            <div class="searchbar-inner">
+              <div class="searchbar-input-wrap">
+                <input type="search" placeholder="Search" />
+                <i class="searchbar-icon"></i>
+                <span class="input-clear-button"></span>
+              </div>
+              <span class="searchbar-disable-button if-not-aurora">Cancel</span>
+            </div>
+          </form>
+        </div>
+        <div id="listar" class="margin-top">
+          <!--<input type="text" disabled="disabled">JAJA-->
+        </div>
+        <div class="row margin-top">
+          <button class="col-40 button button-large button-fill color-black oculto" id="eliminaLista">Limpiar Lista</button>
+          <button class="col-60 button button-large button-fill color-pink oculto" id="actualizaStock">Actualizar Stock</button>
+        </div>
+        <div class="searchbar-backdrop"></div>
+        <div class="block searchbar-hide-on-search"></div>
+        <div class="list searchbar-found">
+          <ul id="prod_stock">
+            <!--<li class="item-content">
+              <div class="item-inner">
+                <div class="item-title">Acura</div>
+              </div>
+            </li> -->
+          </ul>
+        </div>
+        <div class="block searchbar-not-found">
+          <div class="block-inner">Nothing found</div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="popup popup-bajaStock">
+      <p><a class="link popup-close" href="#">Cerrar</a></p>
+    <div class="block">
+      <div class="subnavbar">
+        <form class="searchbar">
+          <div class="searchbar-inner">
+            <div class="searchbar-input-wrap">
+              <input type="search" placeholder="Search" />
+              <i class="searchbar-icon"></i>
+              <span class="input-clear-button"></span>
+            </div>
+            <span class="searchbar-disable-button if-not-aurora">Cancel</span>
+          </div>
+        </form>
+      </div>
+      <div class="page-content">
+        <div class="subnavbar">
+          <form class="searchbar">
+            <div class="searchbar-inner">
+              <div class="searchbar-input-wrap">
+                <input type="search" placeholder="Search" />
+                <i class="searchbar-icon"></i>
+                <span class="input-clear-button"></span>
+              </div>
+              <span class="searchbar-disable-button if-not-aurora">Cancel</span>
+            </div>
+          </form>
+        </div>
+        <div id="listar2" class="margin-top">
+          <!--<input type="text" disabled="disabled">JAJA-->
+        </div>
+        <div class="row margin-top">
+          <button class="col-40 button button-large button-fill color-black oculto" id="eliminaLista2">Limpiar Lista</button>
+          <button class="col-60 button button-large button-fill color-blue oculto" id="actualizaStock2">Actualizar Stock</button>
+        </div>
+        <div class="searchbar-backdrop"></div>
+        <div class="block searchbar-hide-on-search"></div>
+        <div class="list searchbar-found">
+          <ul id="prod_stock2">
+            <!--<li class="item-content">
+              <div class="item-inner">
+                <div class="item-title">Acura</div>
+              </div>
+            </li> -->
+          </ul>
+        </div>
+        <div class="block searchbar-not-found">
+          <div class="block-inner">Nothing found</div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>

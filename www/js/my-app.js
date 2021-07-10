@@ -26,13 +26,12 @@ var app = new Framework7({
     // RUTAS
     routes: [
         {path: '/index/', url: 'index.html',},
+        {path: '/stock/', url: 'stock.html',},
         {path: '/ingreso/',url: 'ingreso.html',},
         {path: '/registro/',url: 'registro.html',},
+        {path: '/facturas/',url: 'facturas.html',},
         {path: '/productos/',url: 'productos.html',},
         {path: '/proveedores/',url: 'proveedores.html',},
-        {path: '/altaProveedores/',url: 'altaProveedores.html',},
-        {path: '/editarProveedores/',url: 'editarProveedores.html',},
-        {path: '/facturas/',url: 'facturas.html',},
         {path: '/alertaFacturas/',url: 'alertaFacturas.html',},
     ]
   });
@@ -40,16 +39,23 @@ var app = new Framework7({
 //CREO LA VISTA DE LA APP
 var mainView = app.views.create('.view-main');
 
+//VARIABLES GLOBALES
+var db = firebase.firestore();
+var colProductos = db.collection("productos");
+var colProveedores = db.collection("proveedores");
+var colFacturas = db.collection("facturas");
+var nombre = ""; var marca = ""; var detalle = ""; var stock = ""; var alerta = ""; var minimoStock = ""; var email= ""; var telefono = ""; var localida = ""; var provincia = ""; var codigo = ""; var cuit = ""; var fecha = ""; var vencimiento = ""; var proveedor = ""; var monto = ""; var estado = ""; var vtocae = ""; var tabla = ""; var numero = ""; var dias = ""; var alerta = "Si"; var diasAlerta = 5; var observador = ""; var conteoListado = 0; var conteoListado2 = 0;
+
 //EVENTO CORDOVA
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
 });
 
+// INICIALIZACIÓN DE PÁGINA INDEX
 $$(document).on('page:init', '.page[data-name="index"]', function (e) {
 fnAparece();
 fnDesaparece();
 fnGrafico();
-
 });
 
 // INICIALIZACIÓN DE PÁGINA USUARIO INGRESO
@@ -65,6 +71,27 @@ $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
     $$("#registrar").on('click', fnRegistro);
 });
 
+// INICIALIZACIÓN DE PÁGINA USUARIO REGISTRO
+$$(document).on('page:init', '.page[data-name="stock"]', function (e) {
+    var searchbar = app.searchbar.create({
+        el: '.searchbar',
+        searchContainer: '.list',
+        searchIn: '.item-title',
+        on: {
+          search(sb, query, previousQuery) {
+            console.log(query, previousQuery);
+          }
+        }
+      });
+    mostrarProdStock()
+    $$("#eliminaLista").on('click', eliminaLista);
+    $$("#eliminaLista2").on('click', eliminaLista2);
+    $$("#irProductos").on('click', irProductos);
+    $$("#actualizaStock").on('click', actualizaStock);
+    $$("#actualizaStock2").on('click', actualizaStock2);
+
+});
+
 // INICIALIZACIÓN DE PÁGINA PRODUCTOS
 $$(document).on('page:init', '.page[data-name="productos"]', function (e) {
     mostrarProd();
@@ -77,16 +104,6 @@ $$(document).on('page:init', '.page[data-name="proveedores"]', function (e) {
     mostrarProv();
     $$("#botonProveedor").on('click', fnAgregarProv);
     $$("#botonEditarProv").on('click', editarProvOk);
-});
-
-// INICIALIZACIÓN DE PÁGINA ALTA PROVEEDORES
-$$(document).on('page:init', '.page[data-name="altaProveedores"]', function (e) {
-    $$("#agregarProveedores").on('click', fnAgregarProv);
-});
-
-// INICIALIZACIÓN DE PÁGINA EDITAR PROVEEDORES
-$$(document).on('page:init', '.page[data-name="editarProveedores"]', function (e) {
-    $$("#cuitProveedorEd").on('blur', fnBuscarProv);
 });
 
 // INICIALIZACIÓN DE PÁGINA FACTURAS
@@ -160,8 +177,6 @@ function fnRegistro() {
 };
 
 //FUNCION OBSERVA PARA SABER SI EXISTE USUARIO ACTIVO
-var observador = "";
-
 function observa() {
     firebase.auth().onAuthStateChanged((user) => {
     if (user) {
@@ -207,13 +222,6 @@ function fnCerrarSesion() {
 }
 
 //BASE DE DATOS
-
-var db = firebase.firestore();
-var colProductos = db.collection("productos");
-var colProveedores = db.collection("proveedores");
-var colFacturas = db.collection("facturas");
-var productos = [];
-
 function fnAgregarProd() {
     var data = {
         nombre: $$("#nombreProducto").val(),
@@ -255,9 +263,9 @@ function mostrarProd() {
             stock = doc.data().stock;
             alerta = "'" + doc.data().alerta + "'";
             minimoStock = doc.data().minimoStock;
-            tabla.innerHTML += '<tr><td>'+codigo+'</td><td>'+stock+'</td><td>'+nombre+'</td><td>'+marca+'</td><td>'+detalle+'</td><td><button class="col button button-fill color-red" onclick="eliminarProd('+codigo+')">Eliminar</button></td><td><button class="col button button-fill color-green popup-open" href="#"" data-popup=".popup-editarProd" onclick="editarProd('+codigo+','+nombre+','+marca+','+detalle+','+stock+','+alerta+','+minimoStock+')">Editar</button></td></tr>';
-        })
-    })
+            tabla.innerHTML += '<tr><td>'+doc.id+'</td><td>'+doc.data().stock+'</td><td>'+doc.data().nombre+'</td><td>'+doc.data().marca+'</td><td>'+doc.data().detalle+'</td><td><button class="col button button-fill color-red" onclick="eliminarProd('+codigo+')">Eliminar</button></td><td><button class="col button button-fill color-green popup-open" href="#"" data-popup=".popup-editarProd" onclick="editarProd('+codigo+','+nombre+','+marca+','+detalle+','+stock+','+alerta+','+minimoStock+')">Editar</button></td></tr>';
+        });
+    });
 }
 
 function eliminarProd(codigo) {
@@ -316,9 +324,7 @@ function fnAgregarProv() {
         localidad: $$("#localidadProveedor").val(),
         provincia: $$("#provinciaProveedor").val(),
     };
-
     MiID = $$("#cuitProveedor").val();
-
     colProveedores.doc(MiID).set(data)
     .then(function(idProv) {
         console.log("OK! En base de Datos");
@@ -346,10 +352,9 @@ function mostrarProv() {
             telefono = doc.data().telefono;
             localidad = "'" + doc.data().localidad + "'";
             provincia = "'" + doc.data().provincia + "'";
-
             tabla.innerHTML += '<tr><td>'+cuit+'</td><td>'+nombre+'</td><td>'+email+'</td><td>'+telefono+'</td><td>'+localidad+'</td><td><button class="col button button-fill color-red" onclick="eliminarProv('+cuit+')">Eliminar</button></td><td><button class="col button button-fill color-green popup-open" href="#"" data-popup=".popup-editarProv" onclick="editarProv('+cuit+','+nombre+','+email+','+telefono+','+localidad+','+provincia+')">Editar</button></td></tr>';
-        })
-    })
+        });
+    });
 };
 
 function eliminarProv(cuit) {
@@ -360,7 +365,6 @@ function eliminarProv(cuit) {
     .catch((error) => {
     console.error("Error removing document: ", error);
     });
-
     };
 
 function editarProv(cuit,nombre,email,telefono,localidad,provincia){
@@ -390,14 +394,11 @@ function editarProvOk() {
             $$("#localidadProveedorEd").val("");
             $$("#provinciaProveedorEd").val("");
         })
-
         .catch((error) => {
             console.error("Error updating document: ", error);
         });
 
 };
-
-
 
 function fnBuscarProv() {
     console.log("sii");
@@ -430,8 +431,6 @@ function fnBuscarProv() {
     })
 }
 
-
-
 function fnAgregarFac() {
     var data = {
         numero: $$("#numeroFactura").val(),
@@ -442,9 +441,7 @@ function fnAgregarFac() {
         estado: $$("#estadoFactura").val(),
         vtocae: $$("#vencimientocaeFactura").val(),
     };
-
     MiID = $$("#caeFactura").val();
-
     colFacturas.doc(MiID).set(data)
     .then(function(idFac) {
         console.log("OK! En base de Datos");
@@ -462,7 +459,6 @@ function fnAgregarFac() {
     });
 };
 
-
 function mostrarFac() {
     var tabla = document.getElementById('datosFacturas');
     
@@ -471,15 +467,16 @@ function mostrarFac() {
         querySnapshot.forEach(function(doc) {
             cae = doc.id;
             numero = doc.data().numero;
-            fecha = doc.data().fecha;
-            vencimiento = doc.data().vencimiento;
+            fecha = "'" + doc.data().fecha + "'";
+            vencimiento = "'" + doc.data().vencimiento + "'";
             proveedor = "'" + doc.data().proveedor + "'";
             monto = doc.data().monto;
             estado = "'" + doc.data().estado + "'";
-            vtocae = doc.data().vtocae;
+            vtocae = "'" + doc.data().vtocae + "'";
             tabla.innerHTML += '<tr><td>'+cae+'</td><td>'+numero+'</td><td>'+estado+'</td><td>'+monto+'</td><td>'+vencimiento+'</td><td><button class="col button button-fill color-red" onclick="eliminarFac('+cae+')">Eliminar</button></td><td><button class="col button button-fill color-green popup-open" href="#"" data-popup=".popup-editarFac" onclick="editarFac('+cae+','+numero+','+fecha+','+vencimiento+','+proveedor+','+monto+','+estado+','+vtocae+')">Editar</button></td></tr>';
-        })
-    })
+            console.log(fecha);
+        });
+    });
 };
 
 
@@ -491,18 +488,18 @@ function eliminarFac(cae) {
     .catch((error) => {
     console.error("Error removing document: ", error);
     });
-
     };
 
 function editarFac(cae,numero,fecha,vencimiento,proveedor,monto,estado,vtocae){
+    console.log(fecha);
     $$("#caeFacturaEd").val(cae);
     $$("#numeroFacturaEd").val(numero);
-    $$("#fechaFacturaEd").val(fecha.toDate);
-    $$("#vencimientoFacturaEd").val(vencimiento.toDate);
+    $$("#fechaFacturaEd").val(fecha);
+    $$("#vencimientoFacturaEd").val(vencimiento);
     $$("#proveedorFacturaEd").val(proveedor);
     $$("#montoFacturaEd").val(monto);
     $$("#estadoFacturaEd").val(estado);
-    $$("#vencimientocaeFacturaEd").val(vtocae.toDate);
+    $$("#vencimientocaeFacturaEd").val(vtocae);
 }
 
 function editarFacOk() {
@@ -516,7 +513,6 @@ function editarFacOk() {
             estado: $$("#estadoFacturaEd").val(),
             vtocae: $$("#vencimientocaeFacturaEd").val(),
         })
-
         .then(() => {
             console.log("Editado!");
             $$("#numeroFacturaEd").val("");
@@ -527,53 +523,36 @@ function editarFacOk() {
             $$("#caeFacturaEd").val("");
             $$("#vencimientocaeFacturaEd").val("");
         })
-
         .catch((error) => {
             console.error("Error updating document: ", error);
         });
-
 };
 
-
-
-
-
-
-
-
 function fnGrafico() {
-
     var hoy = Date.now();
-    
     colFacturas.get()
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
             vencimiento = new Date(doc.data().vencimiento);
             numero = doc.data().numero;
             monto = doc.data().monto;
-            
             console.log(vencimiento);
             console.log(hoy);
-
             // Calcular días
             var diferencia = Math.abs(vencimiento-hoy);
             dias = parseInt(diferencia/(1000 * 3600 * 24));
-
             console.log(dias);
-
             if (vencimiento < hoy) {
                 $$("#alertas").append('Tu Factura Nº ' + numero + ' por $ ' + monto + ' venció hace ' + dias + ' días!<br>');
             }
             if (vencimiento > hoy && dias <= diasAlerta) {
                 $$("#alertas").append('Tu Factura Nº ' + numero + ' por $ ' + monto + ' vence en ' + dias + ' días!<br>');
             };
-
         })
     })
     .catch(function(err) {
         console.log("Error" + err);
     })
-
 
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
@@ -607,25 +586,18 @@ var myChart = new Chart(ctx, {
         }
     }
 });
-
 };
-
-
-
-
-var alerta = "Si";
-var diasAlerta = 5;
 
 function fnAlerta () {
     if ($$("#alerta").val() == "No") {
         alerta = "No";
         diasAlerta = "";
         $$("#diasAlerta").val(diasAlerta).addClass('disabled')
-    }
+    };
     if ($$("#alerta").val() == "Si") {
         alerta = "Si";
         $$("#diasAlerta").val(diasAlerta).removeClass('disabled')
-    }
+    };
 }
 
 function fnAgregarAlerta() {
@@ -633,3 +605,114 @@ function fnAgregarAlerta() {
     console.log(alerta+diasAlerta);
     alert("Datos Guardados");
 };
+
+function mostrarProdStock() {
+    colProductos.onSnapshot(function(querySnapshot) {
+            $$(".borrar").remove();
+            $$(".borrar2").remove();
+        querySnapshot.forEach(function(doc) {
+            codigo = doc.id;
+            nombre = doc.data().nombre;
+            marca = doc.data().marca;
+            detalle = doc.data().detalle;
+            stock = doc.data().stock;
+            alerta = doc.data().alerta;
+            minimoStock = doc.data().minimoStock;
+            $$("#prod_stock").append('<div class="borrar"><li class="item-content"><div class="item-inner" onclick="listar(\''+codigo+'\',\''+nombre+'\',\''+marca+'\',\''+detalle+'\',\''+stock+'\')"><div class="item-title">'+doc.data().nombre+' - '+doc.data().marca+' - '+doc.data().detalle+' ('+doc.data().stock+')</div></div></li></div>');
+            $$("#prod_stock2").append('<div class="borrar2"><li class="item-content"><div class="item-inner" onclick="listar2(\''+codigo+'\',\''+nombre+'\',\''+marca+'\',\''+detalle+'\',\''+stock+'\')"><div class="item-title">'+doc.data().nombre+' - '+doc.data().marca+' - '+doc.data().detalle+' ('+doc.data().stock+')</div></div></li></div>');
+        });
+    });
+}
+
+function listar (codigo,nombre,marca,detalle,stock) {
+    conteoListado ++;
+    $$("#listar").append('<div class="row item-inner"><input type="number" disabled="disabled" class="oculto" value="'+codigo+'" id="lista_prod'+conteoListado+'"><input type="number" disabled="disabled" class="oculto" value="'+stock+'" id="lista_stock'+conteoListado+'"><input type="text" disabled="disabled" class="col-75" value="'+nombre+' / '+marca+' / '+detalle+'"><input type="number" placeholder="Cantidad" class="col-25 text-color-white bg-color-grey padding-right text-align-center" id="lista_cant'+conteoListado+'"></div>');
+    console.log(conteoListado);
+    $$("#actualizaStock").removeClass('oculto').addClass('visible');
+    $$("#eliminaLista").removeClass('oculto').addClass('visible');
+}
+
+function listar2 (codigo,nombre,marca,detalle,stock) {
+    conteoListado2 ++;
+    $$("#listar2").append('<div class="row item-inner"><input type="number" disabled="disabled" class="oculto" value="'+codigo+'" id="lista_prod2'+conteoListado2+'"><input type="number" disabled="disabled" class="oculto" value="'+stock+'" id="lista_stock2'+conteoListado2+'"><input type="text" disabled="disabled" class="col-75" value="'+nombre+' / '+marca+' / '+detalle+'"><input type="number" placeholder="Cantidad" class="col-25 text-color-white bg-color-grey padding-right text-align-center" id="lista_cant2'+conteoListado2+'"></div>');
+    console.log(conteoListado2);
+    $$("#actualizaStock2").removeClass('oculto').addClass('visible');
+    $$("#eliminaLista2").removeClass('oculto').addClass('visible');
+}
+
+
+function eliminaLista (){
+    conteoListado = 0;
+    $$("#listar").html("");
+    $$("#actualizaStock").removeClass('visible').addClass('oculto');
+    $$("#eliminaLista").removeClass('visible').addClass('oculto');
+}
+
+function eliminaLista2 (){
+    conteoListado2 = 0;
+    $$("#listar2").html("");
+    $$("#actualizaStock2").removeClass('visible').addClass('oculto');
+    $$("#eliminaLista2").removeClass('visible').addClass('oculto');
+}
+
+function actualizaStock () {
+    for (var i = 1; i <= conteoListado; i++) {
+        actualiza_codigo = $$("#lista_prod"+i).val();
+        actualiza_cantidad = $$("#lista_cant"+i).val();
+        actualiza_stock = $$("#lista_stock"+i).val();
+        stock_final = parseInt(actualiza_stock) + parseInt(actualiza_cantidad);
+
+        console.log("Voy a actualizar el codigo " + actualiza_codigo + " con un stock de " + actualiza_stock + " con la cantidad de: " + actualiza_cantidad + ". Total: " + stock_final);
+        
+        ahre(actualiza_codigo,stock_final);
+    };
+
+    eliminaLista();
+}
+
+function actualizaStock2 () {
+    for (var i = 1; i <= conteoListado2; i++) {
+        
+        actualiza_codigo2 = $$("#lista_prod2"+i).val();
+        actualiza_cantidad2 = $$("#lista_cant2"+i).val();
+        actualiza_stock2 = $$("#lista_stock2"+i).val();
+        stock_final2 = parseInt(actualiza_stock2) - parseInt(actualiza_cantidad2);
+
+        console.log("Voy a actualizar el codigo " + actualiza_codigo2 + " con un stock de " + actualiza_stock2 + " con la cantidad de: " + actualiza_cantidad2 + ". Total: " + stock_final2);
+        
+        ahre2(actualiza_codigo2,stock_final2);
+    };
+
+    eliminaLista2();
+}
+
+function ahre(actualiza_codigo,stock_final) {
+    return colProductos.doc(actualiza_codigo).update({
+            stock: stock_final,
+        })
+        .then(() => {
+            console.log("Stock Actualizado!");
+        })
+
+        .catch((error) => {
+            console.error("Error updating document: ", error);
+        });
+}
+
+function ahre2(actualiza_codigo2,stock_final2) {
+    return colProductos.doc(actualiza_codigo2).update({
+            stock: stock_final2,
+        })
+        .then(() => {
+            console.log("Stock Actualizado!");
+        })
+
+        .catch((error) => {
+            console.error("Error updating document: ", error);
+        });
+}
+
+function irProductos () {
+    mainView.router.navigate('/productos/');
+}
+
