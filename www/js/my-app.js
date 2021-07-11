@@ -28,6 +28,7 @@ var app = new Framework7({
         {path: '/index/', url: 'index.html',},
         {path: '/stock/', url: 'stock.html',},
         {path: '/ingreso/',url: 'ingreso.html',},
+        {path: '/contacto/',url: 'contacto.html',},
         {path: '/registro/',url: 'registro.html',},
         {path: '/facturas/',url: 'facturas.html',},
         {path: '/productos/',url: 'productos.html',},
@@ -44,7 +45,7 @@ var db = firebase.firestore();
 var colProductos = db.collection("productos");
 var colProveedores = db.collection("proveedores");
 var colFacturas = db.collection("facturas");
-var nombre = ""; var marca = ""; var detalle = ""; var stock = ""; var alerta = ""; var minimoStock = ""; var email= ""; var telefono = ""; var localida = ""; var provincia = ""; var codigo = ""; var cuit = ""; var fecha = ""; var vencimiento = ""; var proveedor = ""; var monto = ""; var estado = ""; var vtocae = ""; var tabla = ""; var numero = ""; var dias = ""; var alerta = "Si"; var diasAlerta = 5; var observador = ""; var conteoListado = 0; var conteoListado2 = 0;
+var nombre = ""; var marca = ""; var detalle = ""; var stock = ""; var alerta = ""; var minimoStock = ""; var email= ""; var telefono = ""; var localida = ""; var provincia = ""; var codigo = ""; var cuit = ""; var fecha = ""; var vencimiento = ""; var proveedor = ""; var monto = ""; var estado = ""; var vtocae = ""; var tabla = ""; var numero = ""; var dias = ""; var alerta = "Si"; var diasAlerta = 5; var observador = ""; var conteoListado = 0; var conteoListado2 = 0; var totalFacturas = 0; var totalPendientes = 0; var totalPagadas = 0; var cantidadFacturas = 0; var cantidadPagadas = 0; var cantidadPendientes = 0;
 
 //EVENTO CORDOVA
 $$(document).on('deviceready', function() {
@@ -53,6 +54,7 @@ $$(document).on('deviceready', function() {
 
 // INICIALIZACIÓN DE PÁGINA INDEX
 $$(document).on('page:init', '.page[data-name="index"]', function (e) {
+observa();
 fnAparece();
 fnDesaparece();
 fnGrafico();
@@ -126,6 +128,11 @@ $$(document).on('page:init', '.page[data-name="alertaFacturas"]', function (e) {
     $$("#diasAlerta").val(diasAlerta);
 });
 
+// INICIALIZACIÓN DE PÁGINA CONTACTO
+$$(document).on('page:init', '.page[data-name="contacto"]', function (e) {
+    
+});
+
 // AUTENTICACIÓN USUARIO EXISTENTE
 function fnIngreso() {
     var email = $$("#email").val();
@@ -196,8 +203,6 @@ function observa() {
   }
 });
 };
-
-observa();
 
 function fnAparece() {
     $$("#aparece_cerrar").removeClass('oculto').addClass('visible');
@@ -522,17 +527,22 @@ function editarFacOk() {
             $$("#montoFacturaEd").val("");
             $$("#caeFacturaEd").val("");
             $$("#vencimientocaeFacturaEd").val("");
+            fnGrafico();
         })
         .catch((error) => {
             console.error("Error updating document: ", error);
         });
 };
 
+
 function fnGrafico() {
+    totalFacturas = 0; totalPendientes = 0; totalPagadas = 0;
+    cantidadFacturas = 0; cantidadPagadas = 0; cantidadPendientes = 0;
     var hoy = Date.now();
-    colFacturas.get()
-    .then(function(querySnapshot) {
+        colFacturas.onSnapshot(function(querySnapshot) {
+            
         querySnapshot.forEach(function(doc) {
+            estado = doc.data().estado;
             vencimiento = new Date(doc.data().vencimiento);
             numero = doc.data().numero;
             monto = doc.data().monto;
@@ -542,50 +552,80 @@ function fnGrafico() {
             var diferencia = Math.abs(vencimiento-hoy);
             dias = parseInt(diferencia/(1000 * 3600 * 24));
             console.log(dias);
-            if (vencimiento < hoy) {
-                $$("#alertas").append('Tu Factura Nº ' + numero + ' por $ ' + monto + ' venció hace ' + dias + ' días!<br>');
-            }
-            if (vencimiento > hoy && dias <= diasAlerta) {
-                $$("#alertas").append('Tu Factura Nº ' + numero + ' por $ ' + monto + ' vence en ' + dias + ' días!<br>');
+
+            cantidadFacturas ++;
+            totalFacturas += parseFloat(monto);
+
+            if (estado == "pendiente") {
+                cantidadPendientes ++;
+                totalPendientes += parseFloat(monto);
+                if (vencimiento < hoy) {
+                    $$("#alertas_vencio").append('<li style="list-style:none"><i class="f7-icons text-color-black bg-color-red">exclamationmark</i> La Fc Nº ' + numero + ' por $ ' + monto + ' venció hace ' + dias + ' días.</li>');
+                };
+                if (vencimiento > hoy && dias <= diasAlerta) {
+                    $$("#alertas_vence").append('<li style="list-style:none""><i class="f7-icons text-color-black bg-color-yellow">exclamationmark_triangle</i> La Fc Nº ' + numero + ' por $ ' + monto + ' vence en ' + dias + ' días.</li>');
+                };
+            } else {
+                cantidadPagadas ++;
+                totalPagadas += parseFloat(monto);
             };
-        })
-    })
-    .catch(function(err) {
-        console.log("Error" + err);
+
+        });
+
+        var gauge = app.gauge.create({
+                el: '.gauge',
+                type: 'semicircle',
+                value: totalPagadas/totalFacturas,
+                valueText: "$" + totalPagadas,
+                valueTextColor: "#e91e63",
+                borderColor: "#e91e63",
+                labelText: "de $" + totalFacturas + " total",
+                labelTextColor: "#e91e63",
+            });
+
+            var gauge2 = app.gauge.create({
+                el: '.gauge2',
+                type: 'semicircle',
+                value: cantidadPagadas/cantidadFacturas,
+                valueText: parseInt((cantidadPagadas/cantidadFacturas)*100) + "%",
+                valueTextColor: "#0c82df",
+                borderColor: "#0c82df",
+                labelText: cantidadPendientes + " facturas pendientes.",
+                labelTextColor: "#0c82df",
+            });
+
+        console.log("Total Facturas " + totalFacturas);
+        console.log("Total Pendientes " + totalPendientes);
+        console.log("Total Pagadas " + totalPagadas);
+        console.log("Cantidad Facturas " + cantidadFacturas);
+        console.log("Cantidad Pendientes " + cantidadPendientes);
+        console.log("Cantidad Pagadas " + cantidadPagadas);
+
+        
+
     })
 
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['MARZO', 'ABRIL', 'MAYO', 'JUNIO'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 15],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)',
-                'rgba(255, 99, 132, 0.6)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(255, 99, 132, 1)',
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        color: 'rgba(255, 99, 132, 0.6)',
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+    colProductos.onSnapshot(function(querySnapshot) {
+        $$("#alertas_stock").html("");
+        querySnapshot.forEach(function(doc) {
+            codigo = doc.id;
+            alerta = doc.data().alerta;
+            nombre = doc.data().nombre;
+            marca = doc.data().marca;
+            detalle = doc.data().detalle;
+            stock = doc.data().stock;
+            minimoStock = doc.data().minimoStock;
+
+
+            if (alerta == "si") {
+                if (stock < minimoStock) {
+                    $$("#alertas_stock").append('<li style="list-style:none""><i class="f7-icons text-color-black bg-color-deeppurple">info_circle</i> Te quedan sólo ' + stock + ' unidades de ' + nombre + ', ' + marca + ' (' + detalle + ').</li>');
+                };
+            };
+        });
+    });
+
+
 };
 
 function fnAlerta () {
@@ -664,10 +704,17 @@ function actualizaStock () {
 
         console.log("Voy a actualizar el codigo " + actualiza_codigo + " con un stock de " + actualiza_stock + " con la cantidad de: " + actualiza_cantidad + ". Total: " + stock_final);
         
-        ahre(actualiza_codigo,stock_final);
+        return colProductos.doc(actualiza_codigo).update({
+            stock: stock_final,
+        })
+        .then(() => {
+            console.log("Stock Actualizado!");
+            eliminaLista();
+        })
+        .catch((error) => {
+            console.error("Error updating document: ", error);
+        });
     };
-
-    eliminaLista();
 }
 
 function actualizaStock2 () {
@@ -680,39 +727,19 @@ function actualizaStock2 () {
 
         console.log("Voy a actualizar el codigo " + actualiza_codigo2 + " con un stock de " + actualiza_stock2 + " con la cantidad de: " + actualiza_cantidad2 + ". Total: " + stock_final2);
         
-        ahre2(actualiza_codigo2,stock_final2);
-    };
-
-    eliminaLista2();
-}
-
-function ahre(actualiza_codigo,stock_final) {
-    return colProductos.doc(actualiza_codigo).update({
-            stock: stock_final,
-        })
-        .then(() => {
-            console.log("Stock Actualizado!");
-        })
-
-        .catch((error) => {
-            console.error("Error updating document: ", error);
-        });
-}
-
-function ahre2(actualiza_codigo2,stock_final2) {
-    return colProductos.doc(actualiza_codigo2).update({
+        return colProductos.doc(actualiza_codigo2).update({
             stock: stock_final2,
         })
         .then(() => {
             console.log("Stock Actualizado!");
+            eliminaLista2();
         })
-
         .catch((error) => {
             console.error("Error updating document: ", error);
         });
+    }; 
 }
 
 function irProductos () {
     mainView.router.navigate('/productos/');
 }
-

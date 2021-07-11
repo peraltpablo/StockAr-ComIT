@@ -106,3 +106,28 @@
 .mediano {
   font-size: 1.5em;
 }
+
+.medianogrande {
+  font-size: 2em;
+}
+
+.mapa {
+  width: 90vw;
+  height: 50vh;
+}
+
+.card-opening, .card-opened {
+  top: 7.5vh;
+}
+
+.bgpurple {
+  background-color: #7e208f;
+}
+
+.textblueshade {
+  color: #0c82df;
+}
+
+.bgnegrito {
+  background-color: rgba(0, 0, 0, 0.4)
+}
