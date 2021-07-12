@@ -12,28 +12,26 @@
     </div>
   </div>
   <div class="page-content">
-    <div class="block">
-      <div class="card data-table">
-        <table>
-          <thead>
-            <tr>
-              <th class="numeric-cell">CUIT</th>
-              <th class="label-cell">NOMBRE</th>
-              <th class="label-cell">EMAIL</th>
-              <th class="label-cell">TELÉFONO</th>
-              <th class="label-cell">LOCALIDAD</th>
-              <th class="label-cell">ELIMINAR?</th>
-              <th class="label-cell">EDITAR?</th>
-            </tr>
-          </thead>
-          <tbody id="datosProveedores">
-          </tbody>
-        </table>
-      </div>
+    <div class="data-table">
+      <table>
+        <thead class="block-strong">
+          <tr>
+            <th class="numeric-cell">CUIT</th>
+            <th class="label-cell">NOMBRE</th>
+            <th class="label-cell">EMAIL</th>
+            <th class="label-cell">TELÉFONO</th>
+            <th class="label-cell">LOCALIDAD</th>
+            <th class="label-cell">ELIMINAR?</th>
+            <th class="label-cell">EDITAR?</th>
+          </tr>
+        </thead>
+        <tbody id="datosProveedores">
+        </tbody>
+      </table>
     </div>
     <div class="popup popup-altaProv">
     <div class="block">
-      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <p class="display-flex justify-content-center"><a class="link popup-close" href="#"><i class="f7-icons">xmark_circle_fill</i></a></p>
       <div class="block-title">INGRESÁ EL NUEVO PROVEEDOR:</div>
         <form class="list form-store-data margin-top" id="my-form">
           <ul>
@@ -42,7 +40,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">CUIT del Proveedor</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="cuit" placeholder="CUIT del Proveedor (sin '-')" id="cuitProveedor" />
+                    <input type="number" maxlength="11" placeholder="CUIT del Proveedor (sin '-')" id="cuitProveedor" />
                   </div>
                 </div>
               </div>
@@ -52,7 +50,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Nombre del Proveedor</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="nombre" placeholder="Nombre del Proveedor" id="nombreProveedor" />
+                    <input type="text" placeholder="Nombre del Proveedor" id="nombreProveedor" />
                   </div>
                 </div>
               </div>
@@ -62,7 +60,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Email</div>
                   <div class="item-input-wrap">
-                    <input type="email" name="email" placeholder="Email del Proveedor" id="emailProveedor" />
+                    <input type="email" placeholder="Email del Proveedor" id="emailProveedor" />
                   </div>
                 </div>
               </div>
@@ -72,7 +70,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Teléfono</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="telefono" placeholder="Teléfono sin 0 ni 15" id="telefonoProveedor" />
+                    <input type="number" placeholder="Teléfono sin 0 ni 15" id="telefonoProveedor" />
                   </div>
                 </div>
               </div>
@@ -82,7 +80,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Localidad</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="localidad" placeholder="Localidad" id="localidadProveedor" />
+                    <input type="text" placeholder="Localidad" id="localidadProveedor" />
                   </div>
                 </div>
               </div>
@@ -92,7 +90,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Provincia</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="provincia" placeholder="Provincia" id="provinciaProveedor" />
+                    <input type="text" placeholder="Provincia" id="provinciaProveedor" />
                   </div>
                 </div>
               </div>
@@ -106,8 +104,8 @@
     </div>
     <div class="popup popup-editarProv">
     <div class="block">
-      <p><a class="link popup-close" href="#">Cerrar</a></p>
-      <div class="block-title">INGRESÁ EL NUEVO PRODUCTO:</div>
+      <p class="display-flex justify-content-center"><a class="link popup-close" href="#"><i class="f7-icons">xmark_circle_fill</i></a></p>
+      <div class="block-title">PROVEEDOR A EDITAR:</div>
         <form class="list form-store-data margin-top">
           <ul>
             <li>
@@ -115,7 +113,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">CUIT del Proveedor</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="cuit" placeholder="CUIT del Proveedor (sin '-')" id="cuitProveedorEd" />
+                    <input type="number" maxlength="11" placeholder="CUIT del Proveedor (sin '-')" id="cuitProveedorEd" />
                   </div>
                 </div>
               </div>
@@ -125,7 +123,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Nombre del Proveedor</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="nombre" placeholder="Nombre del Proveedor" id="nombreProveedorEd" />
+                    <input type="text" placeholder="Nombre del Proveedor" id="nombreProveedorEd" />
                   </div>
                 </div>
               </div>
@@ -135,7 +133,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Email</div>
                   <div class="item-input-wrap">
-                    <input type="email" name="email" placeholder="Email del Proveedor" id="emailProveedorEd" />
+                    <input type="email" placeholder="Email del Proveedor" id="emailProveedorEd" />
                   </div>
                 </div>
               </div>
@@ -145,7 +143,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Teléfono</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="telefono" placeholder="Teléfono sin 0 ni 15" id="telefonoProveedorEd" />
+                    <input type="number" placeholder="Teléfono sin 0 ni 15" id="telefonoProveedorEd" />
                   </div>
                 </div>
               </div>
@@ -155,7 +153,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Localidad</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="localidad" placeholder="Localidad" id="localidadProveedorEd" />
+                    <input type="text" placeholder="Localidad" id="localidadProveedorEd" />
                   </div>
                 </div>
               </div>
@@ -165,7 +163,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Provincia</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="provincia" placeholder="Provincia" id="provinciaProveedorEd" />
+                    <input type="text" placeholder="Provincia" id="provinciaProveedorEd" />
                   </div>
                 </div>
               </div>

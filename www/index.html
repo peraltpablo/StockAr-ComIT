@@ -23,7 +23,7 @@
     <meta name="color-scheme" content="light dark">
 
     <!-- Your app title -->
-    <title>My App</title>
+    <title>StockAR</title>
     <!-- Path to Framework7 Library CSS -->
     <link rel="stylesheet" href="lib/framework7/framework7-bundle.min.css">
     <!-- Path to icons -->
@@ -55,19 +55,19 @@
 					              </div>
 					            </a>
 					          </li>
-                              <li>
-                                <a href="/stock/" class="item-content item-link panel-close">
-                                  <div class="item-media">
-                                    <i class="f7-icons">cart_fill</i>
-                                  </div>
-                                  <div class="item-inner">
-                                    <div class="item-title-wrap">
-                                      <div class="item-title">STOCK</div>
-                                    </div>
-                                    <div class="item-subtitle">Altas, bajas de Stock</div>
-                                  </div>
-                                </a>
-                              </li>
+                    <li>
+                      <a href="/stock/" class="item-content item-link panel-close">
+                        <div class="item-media">
+                          <i class="f7-icons">cart_fill</i>
+                        </div>
+                        <div class="item-inner">
+                          <div class="item-title-wrap">
+                            <div class="item-title">STOCK</div>
+                          </div>
+                          <div class="item-subtitle">Altas, bajas de Stock</div>
+                        </div>
+                      </a>
+                    </li>
 					          <li>
 					            <a href="/productos/" class="item-content item-link panel-close">
 					              <div class="item-media">
@@ -107,19 +107,32 @@
 					              </div>
 					            </a>
 					          </li>
-                              <li>
-                                <a href="/contacto/" class="item-content item-link panel-close">
-                                  <div class="item-media">
-                                    <i class="f7-icons">chat_bubble_text</i>
-                                  </div>
-                                  <div class="item-inner">
-                                    <div class="item-title-wrap">
-                                      <div class="item-title">CONTACTO</div>
-                                    </div>
-                                    <div class="item-subtitle">StockAR</div>
-                                  </div>
-                                </a>
-                              </li>
+                    <li>
+                      <a href="/contacto/" class="item-content item-link panel-close">
+                        <div class="item-media">
+                          <i class="f7-icons">chat_bubble_text</i>
+                        </div>
+                        <div class="item-inner">
+                          <div class="item-title-wrap">
+                            <div class="item-title">CONTACTO</div>
+                          </div>
+                          <div class="item-subtitle">StockAR</div>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="" class="item-content item-link panel-close cerrar_sesion">
+                        <div class="item-media">
+                          <i class="f7-icons">multiply</i>
+                        </div>
+                        <div class="item-inner">
+                          <div class="item-title-wrap">
+                            <div class="item-title">CERRAR SESIÓN</div>
+                          </div>
+                          <div class="item-subtitle">Salir de mi cuenta</div>
+                        </div>
+                      </a>
+                    </li>
 					        </ul>
 					      </div>
           			</div>
@@ -137,7 +150,7 @@
                 <div class="navbar-bg"></div>
                 <div class="navbar-inner bg-color-primary justify-content-space-between">
                 	<div class="color-theme-black bg-color-teal justify-content-flex-start">
-            			<a class="panel-open" href="#" data-panel=".panel-left"><i class="f7-icons grande">bars</i></a>
+            			<a class="panel-open oculto" href="#" data-panel=".panel-left" id="barra"><i class="f7-icons grande">bars</i></a>
             		</div>
                     <div class="block text text-color-black justify-content-center">
                     	<h2>StockAR<i class="f7-icons">scribble</i></h2>
@@ -148,9 +161,9 @@
             <!-- BARRA INFERIOR -->
             <div class="toolbar toolbar-bottom color-theme-black bg-color-teal">
             	<div class="toolbar-inner">
-            		<a href="" class="link back"><i class="f7-icons">arrowshape_turn_up_left_fill</i></a>
+            		<a href="/contacto/" class="link"><i class="f7-icons">bubble_left_bubble_right_fill</i></a>
             		<a href="/index/" class="link"><i class="f7-icons">house_fill</i></a>
-            		<a href="/ingreso/" class="link"><i class="f7-icons">person_crop_circle_fill</i></a>
+            		<a href="" class="cerrar_sesion"><i class="f7-icons oculto padding-right" id="barra2">person_crop_circle_fill</i></a>
             	</div>
             </div>
         	
@@ -158,87 +171,165 @@
             <div data-name="index" class="page">
                 <!-- Scrollable page content -->
                 <div class="page-content">
-                  <div class="block bgnegrito padding-top padding-bottom no-margin-bottom">
-                    <div class="text-align-center mediano"><u><b>Bienvenid@ a StockAR !</b></u></div>
-                    <div class="padding-left margin-top">NOVEDADES ACTUALIZADAS PARA VOS :</div>
-                    <img src="img/inicio.jpg" class="img_inicio visible" id="imagenIndex">
-                  </div>
 
-                  <div class="card card-expandable" style="height: 15vh">
-                    <div class="card-content">
-                      <div class="bgpurple" style="height: 15vh">
-                        <div class="card-header text-color-grey display-block padding-top"><b>Alerta Facturas</b><br />
-                          <small style="opacity: 0.8">Próximos vencimientos</small>
+                  <div class="visible" id="pantalla_sin_ingresar">
+                  <div class="no-navbar no-toolbar no-swipeback login-screen-page">
+                    <div class="page-content login-screen-content">
+                      <div class="login-screen-title">StockAr<i class="f7-icons">scribble</i></div>
+                      <form>
+                        <div class="list">
+                          <ul>
+                            <li class="item-content item-input">
+                              <div class="item-inner">
+                                <div class="item-title item-label">Usuario</div>
+                                <div class="item-input">
+                                  <input type="email" placeholder="Tu mail de usuario" id="email">
+                                </div>
+                              </div>
+                            </li>
+                            <li class="item-content item-input">
+                              <div class="item-inner">
+                                <div class="item-title item-label">Contraseña</div>
+                                <div class="item-input">
+                                  <input type="password" placeholder="Tu contraseña" id="contrasena">
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
                         </div>
-                        <a href="#" class="link card-close card-opened-fade-in color-white"
-                          style="position: absolute; right: 15px; top: 15px">
-                          <i class="icon f7-icons">xmark_circle_fill</i>
-                        </a>
-                      </div>
-                      <div class="card-content-padding">
-                        <div id="alertas" class="oculto">
-                            <div id="alertas_vence"></div><br>
-                            <div id="alertas_vencio"></div>
+                        <div class="list">
+                          <ul>
+                            <li><a href="#" class="list-button" id="ingresar">Ingresar</a></li>
+                          </ul>
+                          <div class="block-footer">
+                            <p>¿No sos usuario?. <a href="#" class="text-color-blue popup-open" data-popup=".popup-registro" >Registrate acá.</a></p>
+                          </div>
                         </div>
-                      </div>
+                      </form>
                     </div>
                   </div>
 
-                  <div class="card card-expandable" style="height: 15vh">
-                    <div class="card-content">
-                      <div class="bg-color-yellow" style="height: 15vh">
-                        <div class="card-header text-color-black display-block padding-top"><b>Alerta Productos</b><br />
-                          <small style="opacity: 0.8">Por agotar stock!</small>
+                  <div class="popup popup-registro">
+                    <div class="block">
+                      <p class="display-flex justify-content-center"><a class="link popup-close" href="#"><i class="f7-icons">xmark_circle_fill</i></a></p>
+                      <div class="no-navbar no-toolbar no-swipeback login-screen-page visible" id="pantalla_sin_ingresar">
+                        <div class="page-content login-screen-content">
+                          <div class="login-screen-title">Nuevo Usuario <i class="f7-icons">person_2_alt</i></div>
+                          <form>
+                            <div class="list">
+                              <ul>
+                                <li class="item-content item-input">
+                                  <div class="item-inner">
+                                    <div class="item-title item-label">Nombre y Apellido</div>
+                                    <div class="item-input">
+                                      <input type="text" placeholder="Tu nombre completo">
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="item-content item-input">
+                                  <div class="item-inner">
+                                    <div class="item-title item-label">Correo Electrónico</div>
+                                    <div class="item-input">
+                                      <input type="email" placeholder="Tu mail de usuario" id="email_nuevo">
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="item-content item-input">
+                                  <div class="item-inner">
+                                    <div class="item-title item-label">Contraseña</div>
+                                    <div class="item-input">
+                                      <input type="password" placeholder="Tu contraseña" id="contrasena_nuevo">
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="item-content item-input">
+                                  <div class="item-inner">
+                                    <div class="item-title item-label">Repetí tu clave</div>
+                                    <div class="item-input">
+                                      <input type="password" placeholder="Repetì tu clave" id="contrasena_nuevo2">
+                                    </div>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="list">
+                              <ul>
+                                <li><a href="#" class="list-button" id="registrar">Registrarme</a></li>
+                              </ul>
+                              <div class="registro_ok">
+                                
+                              </div>
+                            </div>
+                          </form>
                         </div>
-                        <a href="#" class="link card-close card-opened-fade-in color-black"
-                          style="position: absolute; right: 15px; top: 15px">
-                          <i class="icon f7-icons">xmark_circle_fill</i>
-                        </a>
                       </div>
-                      <div class="card-content-padding">
-                        <div id="alertas" class="oculto">
-                            <div id="alertas_stock"></div>
+
+
+
+                    </div>
+                  </div>
+                  </div>
+                  
+
+        <!-- APARECE CUANDO INGRESOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO-->
+                  <div class="oculto" id="pantalla_ingresado">
+                    <div class="block text-color-white padding-top margin-left margin-right no-margin-bottom">
+                      <h1 class="text-align-center"><u>B I E N V E N I D @ !</u></h1>
+                    </div>
+                    <div class="card card-expandable" style="height: 15vh">
+                      <div class="card-content">
+                        <div class="bgpurple" style="height: 15vh">
+                          <div class="card-header text-color-grey display-block padding-top"><b>Alerta Facturas</b><br />
+                            <small style="opacity: 0.8">Próximos vencimientos</small>
+                          </div>
+                          <a href="#" class="link card-close card-opened-fade-in color-white"
+                            style="position: absolute; right: 15px; top: 15px">
+                            <i class="icon f7-icons">xmark_circle_fill</i>
+                          </a>
+                        </div>
+                        <div class="card-content-padding">
+                          <div id="alertas">
+                              <div id="alertas_vence"></div><br>
+                              <div id="alertas_vencio"></div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div>
-                  <div class="block bgnegrito padding-top padding-bottom">
-                    <div class="row">
-                      <div class="col text-align-center">
-                        <div class="gauge"
-                        ></div>
-                        <div class="margin-top"><b>PAGOS SOBRE TOTAL DE FACTURA</b></div>
-                      </div>
-                      <div class="col text-align-center">
-                        <div class="margin-bottom"><b>PORCENTAJE DE FACTURAS PAGADAS</b></div>
-                        <div class="gauge2"
-                        ></div>
+                    <div class="card card-expandable" style="height: 15vh">
+                      <div class="card-content">
+                        <div class="bg-color-yellow" style="height: 15vh">
+                          <div class="card-header text-color-black display-block padding-top"><b>Alerta Productos</b><br />
+                            <small style="opacity: 0.8">Por agotar stock!</small>
+                          </div>
+                          <a href="#" class="link card-close card-opened-fade-in color-black"
+                            style="position: absolute; right: 15px; top: 15px">
+                            <i class="icon f7-icons">xmark_circle_fill</i>
+                          </a>
+                        </div>
+                        <div class="card-content-padding">
+                          <div id="alertas">
+                              <div id="alertas_stock"></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  </div>
-
-                        <!--<div class="gauge gauge-init"
-                          data-type="semicircle"
-                          data-value="0.5"
-                          data-value-text-color="#e91e63"
-                          data-border-color="#e91e63"
-                          data-label-text="of 60kg total"
-                          data-label-text-color="#e91e63"
-                        ></div>
-                        <div class="gauge gauge-init"
-                          data-type="semicircle"
-                          data-value="0.3"
-                          data-value-text="30%"
-                          data-value-text-color="#0c82df"
-                          data-border-color="#0c82df"
-                        ></div>-->
-
-
-
-
+                    <div>
+                    <div class="block bgnegrito padding-top padding-bottom">
+                      <div class="row">
+                        <div class="col text-align-center">
+                          <div class="gauge"
+                          ></div>
+                          <div class="margin-top"><b>PAGOS SOBRE TOTAL DE FACTURA</b></div>
+                        </div>
+                        <div class="col text-align-center">
+                          <div class="margin-bottom"><b>PORCENTAJE DE FACTURAS PAGADAS</b></div>
+                          <div class="gauge2"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                  </div>  
 
 
 

@@ -1,6 +1,6 @@
 <div class="page" data-name="stock">
-  <div class="page-content">
-    <div>Gestioná tus Stocks</div>
+  <div class="page-content no-margin-bottom">
+    <h2 class="no-margin-top padding-left">GESTIONÁ TUS STOCKS</h2>
     <div class="block block-strong">
     <h3 class="text-align-center margin-top">VENTAS / BAJAS</h3>
       <p class="row">
@@ -20,10 +20,10 @@
       </p>
     </div>
     <div class="popup popup-altaStock">
-      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <p class="display-flex justify-content-center"><a class="link popup-close" href="#"><i class="f7-icons">xmark_circle_fill</i></a></p>
     <div class="block">
       <div class="subnavbar">
-        <form class="searchbar">
+        <form class="searchbar buscador_stock_alta">
           <div class="searchbar-inner">
             <div class="searchbar-input-wrap">
               <input type="search" placeholder="Search" />
@@ -52,7 +52,7 @@
         </div>
         <div class="row margin-top">
           <button class="col-40 button button-large button-fill color-black oculto" id="eliminaLista">Limpiar Lista</button>
-          <button class="col-60 button button-large button-fill color-pink oculto" id="actualizaStock">Actualizar Stock</button>
+          <button class="col-60 button button-large button-fill color-pink oculto open-confirm" id="actualizaStock">Actualizar Stock</button>
         </div>
         <div class="searchbar-backdrop"></div>
         <div class="block searchbar-hide-on-search"></div>
@@ -72,10 +72,10 @@
     </div>
     </div>
     <div class="popup popup-bajaStock">
-      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <p class="display-flex justify-content-center"><a class="link popup-close" href="#"><i class="f7-icons">xmark_circle_fill</i></a></p>
     <div class="block">
       <div class="subnavbar">
-        <form class="searchbar">
+        <form class="searchbar buscador_stock_baja">
           <div class="searchbar-inner">
             <div class="searchbar-input-wrap">
               <input type="search" placeholder="Search" />
@@ -104,7 +104,7 @@
         </div>
         <div class="row margin-top">
           <button class="col-40 button button-large button-fill color-black oculto" id="eliminaLista2">Limpiar Lista</button>
-          <button class="col-60 button button-large button-fill color-blue oculto" id="actualizaStock2">Actualizar Stock</button>
+          <button class="col-60 button button-large button-fill color-blue oculto open-confirm2" href="#" id="actualizaStock2">Actualizar Stock</button>
         </div>
         <div class="searchbar-backdrop"></div>
         <div class="block searchbar-hide-on-search"></div>

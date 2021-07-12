@@ -1,16 +1,4 @@
 <div class="page" data-name="productos">
-  <div class="subnavbar">
-    <form class="searchbar">
-      <div class="searchbar-inner">
-        <div class="searchbar-input-wrap">
-          <input type="search" placeholder="Search" />
-          <i class="searchbar-icon"></i>
-          <span class="input-clear-button"></span>
-        </div>
-        <span class="searchbar-disable-button if-not-aurora">Cancel</span>
-      </div>
-    </form>
-  </div>
   <div class="fab-backdrop"></div>
   <div class="fab fab-right-bottom">
     <a href="#">
@@ -43,7 +31,7 @@
     </div>
     <div class="popup popup-altaProd">
     <div class="block">
-      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <p class="display-flex justify-content-center"><a class="link popup-close" href="#"><i class="f7-icons">xmark_circle_fill</i></a></p>
       <div class="block-title">INGRESÁ EL NUEVO PRODUCTO:</div>
         <form class="list form-store-data margin-top">
           <ul>
@@ -52,7 +40,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Código del Producto</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="nombre" placeholder="Código del Producto" id="codigoProducto" />
+                    <input type="number" placeholder="Código del Producto" id="codigoProducto" />
                   </div>
                 </div>
               </div>
@@ -62,7 +50,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Nombre del Producto</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="nombre" placeholder="Nombre del Producto" id="nombreProducto" />
+                    <input type="text" placeholder="Nombre del Producto" id="nombreProducto" />
                   </div>
                 </div>
               </div>
@@ -72,7 +60,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Marca</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="marca" placeholder="Marca" id="marcaProducto" />
+                    <input type="text" placeholder="Marca" id="marcaProducto" />
                   </div>
                 </div>
               </div>
@@ -82,7 +70,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Detalle</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="detalle" placeholder="Peso, volumen, tamaño" id="detalleProducto" />
+                    <input type="text" placeholder="Peso, volumen, tamaño" id="detalleProducto" />
                   </div>
                 </div>
               </div>
@@ -92,7 +80,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Stock Inicial</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="stock" placeholder="Stock del Producto" id="stockProducto" />
+                    <input type="number" placeholder="Stock del Producto" id="stockProducto" />
                   </div>
                 </div>
               </div>
@@ -102,7 +90,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Recibe Alerta de Stock Mínimo?</div>
                   <div class="item-input-wrap">
-                    <select name="gender" id="alertaProducto">
+                    <select id="alertaProducto">
                       <option value="si" selected="selected">Si</option>
                       <option value="no">No</option>
                     </select>
@@ -115,7 +103,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Stock Mínimo de Alerta</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="detalle" placeholder="Cantidad Mínima de Stock" id="mininoAlerta" />
+                    <input type="text" placeholder="Cantidad Mínima de Stock" id="mininoAlerta" />
                   </div>
                 </div>
               </div>
@@ -129,7 +117,7 @@
     </div>
     <div class="popup popup-editarProd">
     <div class="block">
-      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <p class="display-flex justify-content-center"><a class="link popup-close" href="#"><i class="f7-icons">xmark_circle_fill</i></a></p>
       <div class="block-title">PRODUCTO A EDITAR:</div>
         <form class="list form-store-data margin-top">
           <ul>
@@ -138,7 +126,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Código del Producto</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="nombre" placeholder="Código del Producto" id="codigoProductoEd" />
+                    <input type="number" placeholder="Código del Producto" id="codigoProductoEd" />
                   </div>
                 </div>
               </div>
@@ -148,7 +136,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Nombre del Producto</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="nombre" placeholder="Nombre del Producto" id="nombreProductoEd" />
+                    <input type="text" placeholder="Nombre del Producto" id="nombreProductoEd" />
                   </div>
                 </div>
               </div>
@@ -158,7 +146,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Marca</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="marca" placeholder="Marca" id="marcaProductoEd" />
+                    <input type="text" placeholder="Marca" id="marcaProductoEd" />
                   </div>
                 </div>
               </div>
@@ -168,7 +156,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Detalle</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="detalle" placeholder="Peso, volumen, tamaño" id="detalleProductoEd" />
+                    <input type="text" placeholder="Peso, volumen, tamaño" id="detalleProductoEd" />
                   </div>
                 </div>
               </div>
@@ -178,7 +166,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Stock Inicial</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="stock" placeholder="Stock del Producto" id="stockProductoEd" />
+                    <input type="number" placeholder="Stock del Producto" id="stockProductoEd" />
                   </div>
                 </div>
               </div>
@@ -188,7 +176,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Recibe Alerta de Stock Mínimo?</div>
                   <div class="item-input-wrap">
-                    <select name="gender" id="alertaProductoEd">
+                    <select id="alertaProductoEd">
                       <option value="si" selected="selected">Si</option>
                       <option value="no">No</option>
                     </select>
@@ -201,7 +189,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Stock Mínimo de Alerta</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="detalle" placeholder="Cantidad Mínima de Stock" id="mininoAlertaEd" />
+                    <input type="text" placeholder="Cantidad Mínima de Stock" id="mininoAlertaEd" />
                   </div>
                 </div>
               </div>

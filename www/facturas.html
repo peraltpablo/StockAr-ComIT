@@ -9,14 +9,13 @@
     </a>
     <div class="fab-buttons fab-buttons-top">
       <a class="fab-label-button popup-open" href="#" data-popup=".popup-altaFac"><span>Alta</span><span class="fab-label">Nueva Alta</span></a>
-      <a class="fab-label-button" href="/alertaFacturas/"><span>Alertas</span><span class="fab-label">Alertas</span></a>
+      <a class="fab-label-button popup-open" href="#" data-popup=".popup-alertaFac"><span>Alertas</span><span class="fab-label" >Alertas</span></a>
     </div>
   </div>
   <div class="page-content">
-    <div class="block">
-      <div class="card data-table">
+      <div class="data-table">
         <table>
-          <thead>
+          <thead class="block-strong">
             <tr>
               <th class="numeric-cell">CAE</th>
               <th class="numeric-cell">NÚMERO</th>
@@ -31,19 +30,18 @@
           </tbody>
         </table>
       </div>
-    </div>
     <div class="popup popup-altaFac">
     <div class="block">
-      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <p class="display-flex justify-content-center"><a class="link popup-close" href="#"><i class="f7-icons">xmark_circle_fill</i></a></p>
       <div class="block-title">FACTURA:</div>
-        <form class="list form-store-data margin-top" id="my-form">
+        <form class="list form-store-data margin-top">
           <ul>
             <li>
               <div class="item-content item-input">
                 <div class="item-inner">
                   <div class="item-title item-label">Nº de Factura</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="factura" placeholder="Número después de guiones" id="numeroFactura" />
+                    <input type="number" placeholder="Número después de guiones" id="numeroFactura" />
                   </div>
                 </div>
               </div>
@@ -73,7 +71,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Nombre del Proveedor</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="nombre" placeholder="Nombre del Proveedor" id="proveedorFactura" />
+                    <input type="text" placeholder="Nombre del Proveedor" id="proveedorFactura" />
                   </div>
                 </div>
               </div>
@@ -83,7 +81,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Monto</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="email" placeholder="Monto Total (decimales con .)" id="montoFactura" />
+                    <input type="number" placeholder="Monto Total (decimales con .)" id="montoFactura" />
                   </div>
                 </div>
               </div>
@@ -106,7 +104,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">CAE</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="cae" placeholder="Número de CAE" id="caeFactura" />
+                    <input type="number" placeholder="Número de CAE" id="caeFactura" />
                   </div>
                 </div>
               </div>
@@ -129,7 +127,7 @@
     </div>
     <div class="popup popup-editarFac">
     <div class="block">
-      <p><a class="link popup-close" href="#">Cerrar</a></p>
+      <p class="display-flex justify-content-center"><a class="link popup-close" href="#"><i class="f7-icons">xmark_circle_fill</i></a></p>
       <div class="block-title">FACTURA:</div>
         <form class="list form-store-data margin-top" id="my-form-Ed">
           <ul>
@@ -138,7 +136,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Nº de Factura</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="factura" placeholder="Número después de guiones" id="numeroFacturaEd" />
+                    <input type="number" placeholder="Número después de guiones" id="numeroFacturaEd" />
                   </div>
                 </div>
               </div>
@@ -168,7 +166,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Nombre del Proveedor</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="nombre" placeholder="Nombre del Proveedor" id="proveedorFacturaEd" />
+                    <input type="text" placeholder="Nombre del Proveedor" id="proveedorFacturaEd" />
                   </div>
                 </div>
               </div>
@@ -178,7 +176,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Monto</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="email" placeholder="Monto Total (decimales con .)" id="montoFacturaEd" />
+                    <input type="number" placeholder="Monto Total (decimales con .)" id="montoFacturaEd" />
                   </div>
                 </div>
               </div>
@@ -201,7 +199,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">CAE</div>
                   <div class="item-input-wrap">
-                    <input type="number" name="cae" placeholder="Número de CAE" id="caeFacturaEd" />
+                    <input type="number" placeholder="Número de CAE" id="caeFacturaEd" />
                   </div>
                 </div>
               </div>
@@ -221,6 +219,42 @@
         <p class="row block">
             <button class="col-50 button button-small button-round button-fill" id="botonEditarFac">Editar</button>
         </p>
+    </div>
+  </div>
+  <div class="popup popup-alertaFac">
+    <div class="block">
+      <p class="display-flex justify-content-center"><a class="link popup-close" href="#"><i class="f7-icons">xmark_circle_fill</i></a></p>
+      <div class="block-title">ALERTAS:</div>
+        <form class="list" id="my-form">
+        <ul>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Desea recibir alertas de vencimientos?</div>
+                <div class="item-input-wrap">
+                  <select id="alerta">
+                    <option value="Si" selected="selected">Si</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Plazo para el Alerta</div>
+                <div class="item-input-wrap">
+                  <input type="number" placeholder="Días anteriores al vencimiento" id="diasAlerta"/>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </form>
+      <div class="block block-strong row">
+        <div class="col"><a class="button button-fill convert-form-to-data" href="#" id="agregarAlerta">Guardar Cambios</a></div>
+      </div>
     </div>
   </div>
   </div>

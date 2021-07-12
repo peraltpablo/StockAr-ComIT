@@ -5,7 +5,7 @@ var app = new Framework7({
     // App root element
     root: '#app',
     // NOMBRE DE LA APP
-    name: 'My App',
+    name: 'StockAR',
     // ID DE LA APP
     id: 'com.myapp.test',
     // SWIPE PANELES
@@ -27,13 +27,10 @@ var app = new Framework7({
     routes: [
         {path: '/index/', url: 'index.html',},
         {path: '/stock/', url: 'stock.html',},
-        {path: '/ingreso/',url: 'ingreso.html',},
         {path: '/contacto/',url: 'contacto.html',},
-        {path: '/registro/',url: 'registro.html',},
         {path: '/facturas/',url: 'facturas.html',},
         {path: '/productos/',url: 'productos.html',},
         {path: '/proveedores/',url: 'proveedores.html',},
-        {path: '/alertaFacturas/',url: 'alertaFacturas.html',},
     ]
   });
 
@@ -54,29 +51,21 @@ $$(document).on('deviceready', function() {
 
 // INICIALIZACIÓN DE PÁGINA INDEX
 $$(document).on('page:init', '.page[data-name="index"]', function (e) {
-observa();
-fnAparece();
-fnDesaparece();
-fnGrafico();
-});
-
-// INICIALIZACIÓN DE PÁGINA USUARIO INGRESO
-$$(document).on('page:init', '.page[data-name="ingreso"]', function (e) {
-    $$("#ingresar").on('click', fnIngreso);
-    $$("#registracion").on('click', fnRegistracion);
-    $$("#cerrarSesion").on('click', fnCerrarSesion);
     observa();
-});
-
-// INICIALIZACIÓN DE PÁGINA USUARIO REGISTRO
-$$(document).on('page:init', '.page[data-name="registro"]', function (e) {
+    fnGrafico();
+    $$("#ingresar").on('click', fnIngreso);
+    $$(".cerrar_sesion").on('click', function () {
+        app.dialog.confirm('Estás seguro que deseás salir?', function () {
+            fnCerrarSesion();
+        });
+    });
     $$("#registrar").on('click', fnRegistro);
 });
 
-// INICIALIZACIÓN DE PÁGINA USUARIO REGISTRO
+// INICIALIZACIÓN DE PÁGINA STOCK
 $$(document).on('page:init', '.page[data-name="stock"]', function (e) {
     var searchbar = app.searchbar.create({
-        el: '.searchbar',
+        el: '.buscador_stock_alta',
         searchContainer: '.list',
         searchIn: '.item-title',
         on: {
@@ -85,27 +74,60 @@ $$(document).on('page:init', '.page[data-name="stock"]', function (e) {
           }
         }
       });
-    mostrarProdStock()
+
+    var searchbar = app.searchbar.create({
+        el: '.buscador_stock_baja',
+        searchContainer: '.list',
+        searchIn: '.item-title',
+        on: {
+          search(sb, query, previousQuery) {
+            console.log(query, previousQuery);
+          }
+        }
+      });
+
+    $$('.open-confirm2').on('click', function () {
+        app.dialog.confirm('Confirma la baja de stock?', function () {
+          actualizaStock2();
+        });
+      });
+    $$('.open-confirm').on('click', function () {
+        app.dialog.confirm('Confirma el alta de stock?', function () {
+          actualizaStock();
+        });
+      });
+    mostrarProdStock();
     $$("#eliminaLista").on('click', eliminaLista);
     $$("#eliminaLista2").on('click', eliminaLista2);
     $$("#irProductos").on('click', irProductos);
-    $$("#actualizaStock").on('click', actualizaStock);
-    $$("#actualizaStock2").on('click', actualizaStock2);
-
 });
 
 // INICIALIZACIÓN DE PÁGINA PRODUCTOS
 $$(document).on('page:init', '.page[data-name="productos"]', function (e) {
     mostrarProd();
     $$("#botonProducto").on('click', fnAgregarProd);
-    $$("#botonEditarProd").on('click', editarProdOk);
+    $$('#botonEditarProd').on('click', function () {
+        app.dialog.confirm('Confirma la edición del producto?', function () {
+            editarProdOk();
+        });
+    });
 });
 
 // INICIALIZACIÓN DE PÁGINA PROVEEDORES
 $$(document).on('page:init', '.page[data-name="proveedores"]', function (e) {
+    $$("#cuitProveedor").val("");
+    $$("#nombreProveedor").val("");
+    $$("#emailProveedor").val("");
+    $$("#telefonoProveedor").val("");
+    $$("#localidadProveedor").val("");
+    $$("#provinciaProveedor").val("");
     mostrarProv();
     $$("#botonProveedor").on('click', fnAgregarProv);
-    $$("#botonEditarProv").on('click', editarProvOk);
+    $$('#botonEditarProv').on('click', function () {
+        app.dialog.confirm('Confirma la edición del proveedor?', function () {
+            editarProvOk();
+        });
+    });
 });
 
 // INICIALIZACIÓN DE PÁGINA FACTURAS
@@ -118,19 +140,18 @@ $$(document).on('page:init', '.page[data-name="facturas"]', function (e) {
     var calendar5 = app.calendar.create({inputEl: '#vencimientoFacturaEd',});
     var calendar6 = app.calendar.create({inputEl: '#vencimientocaeFacturaEd',});
     $$("#botonFactura").on('click', fnAgregarFac);
-    $$("#botonEditarFac").on('click', editarFacOk);
-});
-
-// INICIALIZACIÓN DE PÁGINA ALERTA FACTURAS
-$$(document).on('page:init', '.page[data-name="alertaFacturas"]', function (e) {
+    $$('#botonEditarFac').on('click', function () {
+        app.dialog.confirm('Confirma la edición de la factura?', function () {
+            editarFacOk();
+        });
+    });
+    $$("#diasAlerta").val(diasAlerta);
     $$("#agregarAlerta").on('click', fnAgregarAlerta);
     $$("#alerta").on('change', fnAlerta);
-    $$("#diasAlerta").val(diasAlerta);
 });
 
 // INICIALIZACIÓN DE PÁGINA CONTACTO
 $$(document).on('page:init', '.page[data-name="contacto"]', function (e) {
-    
 });
 
 // AUTENTICACIÓN USUARIO EXISTENTE
@@ -143,11 +164,14 @@ function fnIngreso() {
     firebase.auth().signInWithEmailAndPassword(email, contrasena)
     .then(function(){
         console.log("Ingreso!");
-        mainView.router.navigate('/index/');
+        $$("#pantalla_ingresado").removeClass('oculto').addClass('visible');
+        $$("#pantalla_sin_ingresar").removeClass('visible').addClass('oculto');
+        $$("#barra").removeClass('oculto').addClass('visible');
+        $$("#barra2").removeClass('oculto').addClass('visible');
     })
     .catch(function(error){
         if (error.code == "auth/invalid-email") {
-            alert("Usuario Incorrecto");
+            app.dialog.alert('Usuario incorrecto');
         }
     console.error(error.code);
     console.error(error.message);
@@ -163,68 +187,65 @@ function fnRegistracion() {
 function fnRegistro() {
     var email_nuevo = $$("#email_nuevo").val();
     var contrasena_nuevo = $$("#contrasena_nuevo").val();
+    var contrasena_nuevo2 = $$("#contrasena_nuevo2").val();
     console.log(email_nuevo);
     console.log(contrasena_nuevo);
 
-    firebase.auth().createUserWithEmailAndPassword(email_nuevo,contrasena_nuevo)
-    .then((userCredential) => {
-        $$("#registro_ok").html("Registro exitoso! <a href='/index/'>Ingresar</a>")
-        //mainView.router.navigate('/ingreso/')
-    // Signed in
-    //var user = userCredential.user;
-    // ...
-    })
-    .catch((error) => {
-        if (contrasena.length < 6) {
-            alert("La contraseña debe tener al menos 6 caracteres")
-        }
-    console.error(error.code);
-    console.error(error.message);
-    });
+    if (contrasena_nuevo == contrasena_nuevo2) {
+        firebase.auth().createUserWithEmailAndPassword(email_nuevo,contrasena_nuevo)
+        .then((userCredential) => {
+            console.log("Registro Nuevo Usuario");
+
+            var swipeToClosePopup = app.popup.create({
+            el: '.popup-registro',
+            });
+            swipeToClosePopup.close();
+            app.dialog.alert('Usuario creado con éxito!');
+        })
+        .catch((error) => {
+            if (contrasena_nuevo.length < 6) {
+                app.dialog.alert('La contraseña debe tener al menos 6 caracteres');
+            }
+        console.error(error.code);
+        console.error(error.message);
+        });
+    } else {
+        app.dialog.alert('Las claves no coinciden');
+    }
 };
 
 //FUNCION OBSERVA PARA SABER SI EXISTE USUARIO ACTIVO
 function observa() {
     firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        var observador = "existe";
-        console.log(observador);
-        fnAparece();
-        $$("#imagenIndex").removeClass('visible').addClass('oculto');
-        $$("#myChart").removeClass('oculto').addClass('visible');
-        $$("#alertas").removeClass('oculto').addClass('visible');
-    } else {
-        observador = "no existe";
-        console.log(observador);
-        fnDesaparece();
-        $$("#myChart").removeClass('visible').addClass('oculto');
-        $$("#alertas").removeClass('visible').addClass('oculto');
-        $$("#imagenIndex").removeClass('oculto').addClass('visible');
-  }
-});
-};
-
-function fnAparece() {
-    $$("#aparece_cerrar").removeClass('oculto').addClass('visible');
-};
-
-function fnDesaparece() {
-    $$("#aparece_cerrar").removeClass('visible').addClass('oculto');
-    
+        if (user) {
+            var observador = "existe";
+            console.log(observador);
+            $$("#pantalla_ingresado").removeClass('oculto').addClass('visible');
+            $$("#pantalla_sin_ingresar").removeClass('visible').addClass('oculto');
+            $$("#barra").removeClass('oculto').addClass('visible');
+            $$("#barra2").removeClass('oculto').addClass('visible');
+        } else {
+            observador = "no existe";
+            console.log(observador);
+            $$("#pantalla_ingresado").removeClass('visible').addClass('oculto');
+            $$("#pantalla_sin_ingresar").removeClass('oculto').addClass('visible');
+            $$("#barra").removeClass('visible').addClass('oculto');
+            $$("#barra2").removeClass('visible').addClass('oculto');
+        }
+    });
 };
 
 function fnCerrarSesion() {
     firebase.auth().signOut()
     .then(function(){
-        console.log("saliendo");
-        
-
+        console.log("Saliendo");
+        mainView.router.navigate('/index/');
     })
     .catch(function(){
         console.error(error.code);
         console.error(error.message);
     })
-}
+};
 
 //BASE DE DATOS
 function fnAgregarProd() {
@@ -249,7 +270,7 @@ function fnAgregarProd() {
         $$("#stockProducto").val("");
         $$("#alertaProducto").val("si");
         $$("#mininoAlerta").val("");
-        alert("Producto Añadido");
+        app.dialog.alert('Producto Añadido');
     })
     .catch(function(datosDelError) {
         console.error("Error: " + datosDelError);
@@ -262,27 +283,28 @@ function mostrarProd() {
         tabla.innerHTML = '';
         querySnapshot.forEach(function(doc) {
             codigo = doc.id;
-            nombre = "'" + doc.data().nombre + "'";
-            marca = "'" + doc.data().marca + "'";
-            detalle = "'" + doc.data().detalle + "'";
+            nombre = doc.data().nombre;
+            marca = doc.data().marca;
+            detalle = doc.data().detalle;
             stock = doc.data().stock;
-            alerta = "'" + doc.data().alerta + "'";
+            alerta = doc.data().alerta;
             minimoStock = doc.data().minimoStock;
-            tabla.innerHTML += '<tr><td>'+doc.id+'</td><td>'+doc.data().stock+'</td><td>'+doc.data().nombre+'</td><td>'+doc.data().marca+'</td><td>'+doc.data().detalle+'</td><td><button class="col button button-fill color-red" onclick="eliminarProd('+codigo+')">Eliminar</button></td><td><button class="col button button-fill color-green popup-open" href="#"" data-popup=".popup-editarProd" onclick="editarProd('+codigo+','+nombre+','+marca+','+detalle+','+stock+','+alerta+','+minimoStock+')">Editar</button></td></tr>';
+            tabla.innerHTML += '<tr><td>'+codigo+'</td><td>'+stock+'</td><td>'+nombre+'</td><td>'+marca+'</td><td>'+detalle+'</td><td><button class="col button button-fill color-red" onclick="eliminarProd(\''+codigo+'\')">Eliminar</button></td><td><button class="col button button-fill color-green popup-open" href="#" data-popup=".popup-editarProd" onclick="editarProd(\''+codigo+'\',\''+nombre+'\',\''+marca+'\',\''+detalle+'\',\''+stock+'\',\''+alerta+'\',\''+minimoStock+'\')">Editar</button></td></tr>';
         });
     });
-}
+};
 
 function eliminarProd(codigo) {
-    colProductos.doc(codigo.toString()).delete()
-    .then(() => {
-    console.log("Borrado!");
-    })
-    .catch((error) => {
-    console.error("Error removing document: ", error);
+    app.dialog.confirm('Estás seguro que desea eliminar este elemento?', function () {
+        colProductos.doc(codigo).delete()
+        .then(() => {
+        console.log("Borrado!");
+        })
+        .catch((error) => {
+        console.error("Error removing document: ", error);
+        });
     });
-
-    };
+};
 
 function editarProd(codigo,nombre,marca,detalle,stock,alerta,minimoStock){
     $$("#codigoProductoEd").val(codigo);
@@ -292,7 +314,7 @@ function editarProd(codigo,nombre,marca,detalle,stock,alerta,minimoStock){
     $$("#stockProductoEd").val(stock);
     $$("#alertaProductoEd").val(alerta);
     $$("#mininoAlertaEd").val(minimoStock);
-}
+};
 
 function editarProdOk() {
     codigo = $$("#codigoProductoEd").val();
@@ -314,11 +336,9 @@ function editarProdOk() {
             $$("#alertaProductoEd").val("");
             $$("#mininoAlertaEd").val("");
         })
-
         .catch((error) => {
             console.error("Error updating document: ", error);
         });
-
 };
 
 function fnAgregarProv() {
@@ -329,6 +349,7 @@ function fnAgregarProv() {
         localidad: $$("#localidadProveedor").val(),
         provincia: $$("#provinciaProveedor").val(),
     };
+
     MiID = $$("#cuitProveedor").val();
     colProveedores.doc(MiID).set(data)
     .then(function(idProv) {
@@ -339,7 +360,7 @@ function fnAgregarProv() {
         $$("#telefonoProveedor").val("");
         $$("#localidadProveedor").val("");
         $$("#provinciaProveedor").val("");
-        alert("Proveedor Añadido");
+        app.dialog.alert('Proveedor Añadido');
     })
     .catch(function(datosDelError) {
         console.error("Error: " + datosDelError);
@@ -352,25 +373,28 @@ function mostrarProv() {
         tabla.innerHTML = '';
         querySnapshot.forEach(function(doc) {
             cuit = doc.id;
-            nombre = "'" + doc.data().nombre + "'";
-            email = "'" + doc.data().email + "'";
+            nombre = doc.data().nombre;
+            email = doc.data().email;
             telefono = doc.data().telefono;
-            localidad = "'" + doc.data().localidad + "'";
-            provincia = "'" + doc.data().provincia + "'";
-            tabla.innerHTML += '<tr><td>'+cuit+'</td><td>'+nombre+'</td><td>'+email+'</td><td>'+telefono+'</td><td>'+localidad+'</td><td><button class="col button button-fill color-red" onclick="eliminarProv('+cuit+')">Eliminar</button></td><td><button class="col button button-fill color-green popup-open" href="#"" data-popup=".popup-editarProv" onclick="editarProv('+cuit+','+nombre+','+email+','+telefono+','+localidad+','+provincia+')">Editar</button></td></tr>';
+            localidad = doc.data().localidad;
+            provincia = doc.data().provincia;
+            tabla.innerHTML += '<tr><td>'+cuit+'</td><td>'+nombre+'</td><td>'+email+'</td><td>'+telefono+'</td><td>'+localidad+'</td><td><button class="col button button-fill color-red" onclick="eliminarProv(\''+cuit+'\')">Eliminar</button></td><td><button class="col button button-fill color-green popup-open" href="#" data-popup=".popup-editarProv" onclick="editarProv(\''+cuit+'\',\''+nombre+'\',\''+email+'\',\''+telefono+'\',\''+localidad+'\',\''+provincia+'\')">Editar</button></td></tr>';
         });
     });
 };
 
 function eliminarProv(cuit) {
-    colProveedores.doc(cuit.toString()).delete()
-    .then(() => {
-    console.log("Proveedor Borrado!");
-    })
-    .catch((error) => {
-    console.error("Error removing document: ", error);
+    app.dialog.confirm('Estás seguro que desea eliminar este proveedor?', function () {
+        colProveedores.doc(cuit).delete()
+        .then(() => {
+        console.log("Proveedor Borrado!");
+        })
+        .catch((error) => {
+        console.error("Error removing document: ", error);
+        });
     });
-    };
+};
+
 
 function editarProv(cuit,nombre,email,telefono,localidad,provincia){
     $$("#cuitProveedorEd").val(cuit);
@@ -379,7 +403,7 @@ function editarProv(cuit,nombre,email,telefono,localidad,provincia){
     $$("#telefonoProveedorEd").val(telefono);
     $$("#localidadProveedorEd").val(localidad);
     $$("#provinciaProveedorEd").val(provincia);
-}
+};
 
 function editarProvOk() {
     cuit = $$("#cuitProveedorEd").val();
@@ -402,7 +426,6 @@ function editarProvOk() {
         .catch((error) => {
             console.error("Error updating document: ", error);
         });
-
 };
 
 function fnBuscarProv() {
@@ -434,7 +457,7 @@ function fnBuscarProv() {
     .catch(function(err) {
         console.log("Error" + err);
     })
-}
+};
 
 function fnAgregarFac() {
     var data = {
@@ -457,7 +480,7 @@ function fnAgregarFac() {
         $$("#montoFactura").val("");
         $$("#caeFactura").val("");
         $$("#vencimientocaeFactura").val("");
-        alert("Factura Añadida");
+        app.dialog.alert('Factura Añadida');
     })
     .catch(function(datosDelError) {
         console.error("Error: " + datosDelError);
@@ -466,34 +489,34 @@ function fnAgregarFac() {
 
 function mostrarFac() {
     var tabla = document.getElementById('datosFacturas');
-    
     colFacturas.onSnapshot(function(querySnapshot) {
         tabla.innerHTML = '';
         querySnapshot.forEach(function(doc) {
             cae = doc.id;
             numero = doc.data().numero;
-            fecha = "'" + doc.data().fecha + "'";
-            vencimiento = "'" + doc.data().vencimiento + "'";
-            proveedor = "'" + doc.data().proveedor + "'";
+            fecha = doc.data().fecha;
+            vencimiento = doc.data().vencimiento;
+            proveedor = doc.data().proveedor;
             monto = doc.data().monto;
-            estado = "'" + doc.data().estado + "'";
-            vtocae = "'" + doc.data().vtocae + "'";
-            tabla.innerHTML += '<tr><td>'+cae+'</td><td>'+numero+'</td><td>'+estado+'</td><td>'+monto+'</td><td>'+vencimiento+'</td><td><button class="col button button-fill color-red" onclick="eliminarFac('+cae+')">Eliminar</button></td><td><button class="col button button-fill color-green popup-open" href="#"" data-popup=".popup-editarFac" onclick="editarFac('+cae+','+numero+','+fecha+','+vencimiento+','+proveedor+','+monto+','+estado+','+vtocae+')">Editar</button></td></tr>';
+            estado = doc.data().estado;
+            vtocae = doc.data().vtocae;
+            tabla.innerHTML += '<tr><td>'+cae+'</td><td>'+numero+'</td><td>'+estado+'</td><td>'+monto+'</td><td>'+vencimiento+'</td><td><button class="col button button-fill color-red" onclick="eliminarFac(\''+cae+'\')">Eliminar</button></td><td><button class="col button button-fill color-green popup-open" href="#" data-popup=".popup-editarFac" onclick="editarFac(\''+cae+'\',\''+numero+'\',\''+fecha+'\',\''+vencimiento+'\',\''+proveedor+'\',\''+monto+'\',\''+estado+'\',\''+vtocae+'\')">Editar</button></td></tr>';
             console.log(fecha);
         });
     });
 };
 
-
 function eliminarFac(cae) {
-    colFacturas.doc(cae.toString()).delete()
-    .then(() => {
-    console.log("Borrado!");
-    })
-    .catch((error) => {
-    console.error("Error removing document: ", error);
+    app.dialog.confirm('Estás seguro que desea eliminar esta factura?', function () {
+        colFacturas.doc(cae).delete()
+        .then(() => {
+        console.log("Factura Borrada!");
+        })
+        .catch((error) => {
+        console.error("Error removing document: ", error);
+        });
     });
-    };
+};
 
 function editarFac(cae,numero,fecha,vencimiento,proveedor,monto,estado,vtocae){
     console.log(fecha);
@@ -505,7 +528,7 @@ function editarFac(cae,numero,fecha,vencimiento,proveedor,monto,estado,vtocae){
     $$("#montoFacturaEd").val(monto);
     $$("#estadoFacturaEd").val(estado);
     $$("#vencimientocaeFacturaEd").val(vtocae);
-}
+};
 
 function editarFacOk() {
     cae = $$("#caeFacturaEd").val();
@@ -534,13 +557,11 @@ function editarFacOk() {
         });
 };
 
-
 function fnGrafico() {
     totalFacturas = 0; totalPendientes = 0; totalPagadas = 0;
     cantidadFacturas = 0; cantidadPagadas = 0; cantidadPendientes = 0;
     var hoy = Date.now();
         colFacturas.onSnapshot(function(querySnapshot) {
-            
         querySnapshot.forEach(function(doc) {
             estado = doc.data().estado;
             vencimiento = new Date(doc.data().vencimiento);
@@ -556,53 +577,61 @@ function fnGrafico() {
             cantidadFacturas ++;
             totalFacturas += parseFloat(monto);
 
+            if (diasAlerta == "") {
+                $$("#alertas_vence").html("");
+                $$("#alertas_vencio").html("");
+            } else {
             if (estado == "pendiente") {
                 cantidadPendientes ++;
                 totalPendientes += parseFloat(monto);
                 if (vencimiento < hoy) {
-                    $$("#alertas_vencio").append('<li style="list-style:none"><i class="f7-icons text-color-black bg-color-red">exclamationmark</i> La Fc Nº ' + numero + ' por $ ' + monto + ' venció hace ' + dias + ' días.</li>');
+                    if (dias == 0) {
+                        $$("#alertas_vence").append('<li style="list-style:none"><i class="f7-icons text-color-black bg-color-yellow">exclamationmark_triangle</i> La Fc Nº ' + numero + ' por $ ' + monto + ' vence hoy.</li>');
+                    } else {
+                        $$("#alertas_vencio").append('<li style="list-style:none"><i class="f7-icons text-color-black bg-color-red">exclamationmark</i> La Fc Nº ' + numero + ' por $ ' + monto + ' venció hace ' + dias + ' días.</li>');
+                    };
                 };
                 if (vencimiento > hoy && dias <= diasAlerta) {
-                    $$("#alertas_vence").append('<li style="list-style:none""><i class="f7-icons text-color-black bg-color-yellow">exclamationmark_triangle</i> La Fc Nº ' + numero + ' por $ ' + monto + ' vence en ' + dias + ' días.</li>');
+                    if (dias == 0) {
+                        $$("#alertas_vence").append('<li style="list-style:none"><i class="f7-icons text-color-black bg-color-yellow">exclamationmark_triangle</i> La Fc Nº ' + numero + ' por $ ' + monto + ' vence hoy.</li>');
+                    } else {
+                        $$("#alertas_vence").append('<li style="list-style:none"><i class="f7-icons text-color-black bg-color-yellow">exclamationmark_triangle</i> La Fc Nº ' + numero + ' por $ ' + monto + ' vence en ' + dias + ' días.</li>');
+                    };
                 };
             } else {
                 cantidadPagadas ++;
                 totalPagadas += parseFloat(monto);
+                };
             };
-
         });
 
         var gauge = app.gauge.create({
-                el: '.gauge',
-                type: 'semicircle',
-                value: totalPagadas/totalFacturas,
-                valueText: "$" + totalPagadas,
-                valueTextColor: "#e91e63",
-                borderColor: "#e91e63",
-                labelText: "de $" + totalFacturas + " total",
-                labelTextColor: "#e91e63",
-            });
+            el: '.gauge',
+            type: 'semicircle',
+            value: totalPagadas/totalFacturas,
+            valueText: "$" + totalPagadas,
+            valueTextColor: "#e91e63",
+            borderColor: "#e91e63",
+            labelText: "de $" + totalFacturas + " total",
+            labelTextColor: "#e91e63",
+        });
 
-            var gauge2 = app.gauge.create({
-                el: '.gauge2',
-                type: 'semicircle',
-                value: cantidadPagadas/cantidadFacturas,
-                valueText: parseInt((cantidadPagadas/cantidadFacturas)*100) + "%",
-                valueTextColor: "#0c82df",
-                borderColor: "#0c82df",
-                labelText: cantidadPendientes + " facturas pendientes.",
-                labelTextColor: "#0c82df",
-            });
-
+        var gauge2 = app.gauge.create({
+            el: '.gauge2',
+            type: 'semicircle',
+            value: cantidadPagadas/cantidadFacturas,
+            valueText: parseInt((cantidadPagadas/cantidadFacturas)*100) + "%",
+            valueTextColor: "#0c82df",
+            borderColor: "#0c82df",
+            labelText: cantidadPendientes + " facturas pendientes.",
+            labelTextColor: "#0c82df",
+        });
         console.log("Total Facturas " + totalFacturas);
         console.log("Total Pendientes " + totalPendientes);
         console.log("Total Pagadas " + totalPagadas);
         console.log("Cantidad Facturas " + cantidadFacturas);
         console.log("Cantidad Pendientes " + cantidadPendientes);
         console.log("Cantidad Pagadas " + cantidadPagadas);
-
-        
-
     })
 
     colProductos.onSnapshot(function(querySnapshot) {
@@ -616,16 +645,13 @@ function fnGrafico() {
             stock = doc.data().stock;
             minimoStock = doc.data().minimoStock;
 
-
             if (alerta == "si") {
                 if (stock < minimoStock) {
-                    $$("#alertas_stock").append('<li style="list-style:none""><i class="f7-icons text-color-black bg-color-deeppurple">info_circle</i> Te quedan sólo ' + stock + ' unidades de ' + nombre + ', ' + marca + ' (' + detalle + ').</li>');
+                    $$("#alertas_stock").append('<li style="list-style:none"><i class="f7-icons text-color-black bg-color-deeppurple">info_circle</i> Te quedan sólo ' + stock + ' unidades de ' + nombre + ', ' + marca + ' (' + detalle + ').</li>');
                 };
             };
         });
     });
-
-
 };
 
 function fnAlerta () {
@@ -638,12 +664,12 @@ function fnAlerta () {
         alerta = "Si";
         $$("#diasAlerta").val(diasAlerta).removeClass('disabled')
     };
-}
+};
 
 function fnAgregarAlerta() {
     diasAlerta = $$("#diasAlerta").val();
     console.log(alerta+diasAlerta);
-    alert("Datos Guardados");
+    app.dialog.alert('Alerta Guardada');
 };
 
 function mostrarProdStock() {
@@ -662,7 +688,7 @@ function mostrarProdStock() {
             $$("#prod_stock2").append('<div class="borrar2"><li class="item-content"><div class="item-inner" onclick="listar2(\''+codigo+'\',\''+nombre+'\',\''+marca+'\',\''+detalle+'\',\''+stock+'\')"><div class="item-title">'+doc.data().nombre+' - '+doc.data().marca+' - '+doc.data().detalle+' ('+doc.data().stock+')</div></div></li></div>');
         });
     });
-}
+};
 
 function listar (codigo,nombre,marca,detalle,stock) {
     conteoListado ++;
@@ -670,7 +696,7 @@ function listar (codigo,nombre,marca,detalle,stock) {
     console.log(conteoListado);
     $$("#actualizaStock").removeClass('oculto').addClass('visible');
     $$("#eliminaLista").removeClass('oculto').addClass('visible');
-}
+};
 
 function listar2 (codigo,nombre,marca,detalle,stock) {
     conteoListado2 ++;
@@ -678,22 +704,21 @@ function listar2 (codigo,nombre,marca,detalle,stock) {
     console.log(conteoListado2);
     $$("#actualizaStock2").removeClass('oculto').addClass('visible');
     $$("#eliminaLista2").removeClass('oculto').addClass('visible');
-}
-
+};
 
 function eliminaLista (){
     conteoListado = 0;
     $$("#listar").html("");
     $$("#actualizaStock").removeClass('visible').addClass('oculto');
     $$("#eliminaLista").removeClass('visible').addClass('oculto');
-}
+};
 
 function eliminaLista2 (){
     conteoListado2 = 0;
     $$("#listar2").html("");
     $$("#actualizaStock2").removeClass('visible').addClass('oculto');
     $$("#eliminaLista2").removeClass('visible').addClass('oculto');
-}
+};
 
 function actualizaStock () {
     for (var i = 1; i <= conteoListado; i++) {
@@ -715,11 +740,10 @@ function actualizaStock () {
             console.error("Error updating document: ", error);
         });
     };
-}
+};
 
 function actualizaStock2 () {
     for (var i = 1; i <= conteoListado2; i++) {
-        
         actualiza_codigo2 = $$("#lista_prod2"+i).val();
         actualiza_cantidad2 = $$("#lista_cant2"+i).val();
         actualiza_stock2 = $$("#lista_stock2"+i).val();
@@ -738,8 +762,8 @@ function actualizaStock2 () {
             console.error("Error updating document: ", error);
         });
     }; 
-}
+};
 
 function irProductos () {
     mainView.router.navigate('/productos/');
-}
+};
